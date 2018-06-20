@@ -11,7 +11,8 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "typo3/cms-core": "^8.7",
-        "bitmotion/marketing-automation": "dev-master"
+        "bitmotion/marketing-automation": "dev-master",
+        "mautic/api-library": "^2.12"
     },
     "replace": {
         "marketing_automation_mautic": "self.version",
