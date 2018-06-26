@@ -8,19 +8,28 @@ $tempColumns = [
         'config' => [
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
-            'itemsProcFunc' => \Bitmotion\MarketingAutomationMautic\UserFunctions\FormEngine\SegmentsItemsProcFunc::class . '->itemsProcFunc',
+            'foreign_table' => 'tx_marketingautomation_segment',
+            'MM' => 'tx_marketingautomation_segment_mm',
+            'MM_opposite_field' => 'items',
+            'MM_match_fields' => [
+                'tablenames' => 'tx_marketingautomation_persona',
+                'fieldname' => 'tx_marketingautomation_segments',
+            ],
             'size' => 10,
             'autoSizeMax' => 30,
             'enableMultiSelectFilterTextfield' => true,
             'fieldControl' => [
+                'updateSegmentsControl' => [
+                    'renderType' => 'updateSegmentsControl',
+                ],
                 'editPopup' => [
-                    'disabled' => false,
+                    'disabled' => true,
                 ],
                 'addRecord' => [
-                    'disabled' => false,
+                    'disabled' => true,
                 ],
                 'listModule' => [
-                    'disabled' => false,
+                    'disabled' => true,
                 ],
             ],
         ],

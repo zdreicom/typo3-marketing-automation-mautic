@@ -9,6 +9,9 @@
             <trans-unit id="tx_marketingautomation_persona.segments">
                 <source>Segments</source>
             </trans-unit>
+            <trans-unit id="tx_marketingautomation_segment">
+                <source>Segment</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -7,6 +7,20 @@ call_user_func(function() {
         require 'phar://' . $pharFile . '/vendor/autoload.php';
     }
 
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1530047235] = [
+        'nodeName' => 'updateSegmentsControl',
+        'priority' => 30,
+        'class' => \Bitmotion\MarketingAutomationMautic\FormEngine\FieldControl\UpdateSegmentsControl::class,
+    ];
+
+    $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+    $dispatcher->connect(
+        \TYPO3\CMS\Backend\Controller\EditDocumentController::class,
+        'initAfter',
+        \Bitmotion\MarketingAutomationMautic\Slot\EditDocumentControllerSlot::class,
+        'synchronizeSegments'
+    );
+
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     $iconRegistry->registerIcon(
         'tx_marketingautomationmautic-mautic-icon',
