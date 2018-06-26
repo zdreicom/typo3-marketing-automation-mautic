@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2018-06-20T20:25:23Z" product-name="marketing_automation_mautic">
+        <header />
+        <body>
+            <trans-unit id="mautic">
+                <source>Mautic</source>
+            </trans-unit>
+            <trans-unit id="tx_marketingautomation_persona.segments">
+                <source>Segments</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

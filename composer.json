@@ -14,6 +14,11 @@
         "bitmotion/marketing-automation": "dev-master",
         "mautic/api-library": "^2.12"
     },
+    "autoload": {
+        "psr-4": {
+            "Bitmotion\\MarketingAutomationMautic\\": "Classes/"
+        }
+    },
     "replace": {
         "marketing_automation_mautic": "self.version",
         "typo3-ter/marketing-automation-mautic": "self.version"
