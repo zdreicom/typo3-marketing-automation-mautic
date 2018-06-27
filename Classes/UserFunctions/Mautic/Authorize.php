@@ -35,6 +35,10 @@ class Authorize
 
     public function __construct()
     {
+        if (session_id() === '') {
+            session_start();
+        }
+
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
         $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
     }
@@ -59,6 +63,21 @@ class Authorize
         $api->getList('', 0, 1);
         if ($api->getMauticVersion() === null) {
             return $this->showErrorMessage();
+        }
+
+        unset($_SESSION['oauth']);
+        if (empty($_SESSION)) {
+            $sessionName = session_name();
+            $sessionCookie = session_get_cookie_params();
+            session_destroy();
+            setcookie(
+                $sessionName,
+                '',
+                $sessionCookie['lifetime'],
+                $sessionCookie['path'],
+                $sessionCookie['domain'],
+                $sessionCookie['secure']
+            );
         }
 
         return $this->showSuccessMessage();
@@ -113,6 +132,7 @@ class Authorize
                         'marketing_automation_mautic'
                     );
                 }
+
                 HttpUtility::redirect($_SERVER['REQUEST_URI']);
             }
         } catch (AbstractApiException $e) {

@@ -9,8 +9,6 @@ class AuthorizationFactory
 {
     public static function createAuthorizationFromExtensionConfiguration(array $extensionConfiguration = null): OAuth
     {
-        session_start();
-
         $extensionConfiguration = $extensionConfiguration ?: unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
 
         $settings = [
