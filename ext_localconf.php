@@ -3,7 +3,7 @@ defined('TYPO3_MODE') or die();
 
 call_user_func(function() {
     if (!class_exists('Mautic\\Auth\\ApiAuth')) {
-        $pharFile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('marketing_automation_mautic') . 'Libraries/mautic-api-library.phar';
+        $pharFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('marketing_automation_mautic') . 'Libraries/mautic-api-library.phar';
         require 'phar://' . $pharFile . '/vendor/autoload.php';
     }
 
@@ -13,13 +13,16 @@ call_user_func(function() {
         'class' => \Bitmotion\MarketingAutomationMautic\FormEngine\FieldControl\UpdateSegmentsControl::class,
     ];
 
-    $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-    $dispatcher->connect(
+    $slotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+    $slotDispatcher->connect(
         \TYPO3\CMS\Backend\Controller\EditDocumentController::class,
         'initAfter',
         \Bitmotion\MarketingAutomationMautic\Slot\EditDocumentControllerSlot::class,
         'synchronizeSegments'
     );
+
+    $marketingDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Bitmotion\MarketingAutomation\Cookie\Dispatcher::class);
+    $marketingDispatcher->addSubscriber(\Bitmotion\MarketingAutomationMautic\Slot\MauticSubscriber::class);
 
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     $iconRegistry->registerIcon(
