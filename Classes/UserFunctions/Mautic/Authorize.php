@@ -69,7 +69,6 @@ class Authorize
         if (empty($_SESSION)) {
             $sessionName = session_name();
             $sessionCookie = session_get_cookie_params();
-            session_destroy();
             setcookie(
                 $sessionName,
                 '',
