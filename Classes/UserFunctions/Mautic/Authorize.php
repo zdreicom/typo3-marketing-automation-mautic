@@ -52,6 +52,11 @@ class Authorize
             return $this->showCredentialsInformation();
         }
 
+        if (substr($this->extensionConfiguration['baseUrl'], -1) === '/') {
+            $this->extensionConfiguration['baseUrl'] = rtrim($this->extensionConfiguration['baseUrl'], '/');
+            $this->saveConfiguration();
+        }
+
         if (empty($this->extensionConfiguration['accessToken'])
             || empty($this->extensionConfiguration['accessTokenSecret'])
         ) {
@@ -123,16 +128,9 @@ class Authorize
                     $accessTokenData = $this->authorization->getAccessTokenData();
                     $this->extensionConfiguration['accessToken'] = $accessTokenData['access_token'];
                     $this->extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
-
-                    $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                    $configurationUtility = $objectManager->get(ConfigurationUtility::class);
-                    $configurationUtility->writeConfiguration(
-                        $this->extensionConfiguration,
-                        'marketing_automation_mautic'
-                    );
                 }
 
-                HttpUtility::redirect($_SERVER['REQUEST_URI']);
+                $this->saveConfiguration();
             }
         } catch (AbstractApiException $e) {
         }
@@ -164,6 +162,17 @@ class Authorize
         $flashMessageQueue->enqueue($flashMessage);
 
         return $flashMessageQueue->renderFlashMessages();
+    }
+
+    protected function saveConfiguration()
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $configurationUtility = $objectManager->get(ConfigurationUtility::class);
+        $configurationUtility->writeConfiguration(
+            $this->extensionConfiguration,
+            'marketing_automation_mautic'
+        );
+        HttpUtility::redirect($_SERVER['REQUEST_URI']);
     }
 
     protected function getLanguageServer(): LanguageService
