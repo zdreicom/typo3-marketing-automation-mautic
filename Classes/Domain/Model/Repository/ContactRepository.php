@@ -32,4 +32,9 @@ class ContactRepository
 
         return $segments['lists'] ?? [];
     }
+
+    public function setContactData(int $id, array $data)
+    {
+        $this->contactsApi->edit($id, $data, false);
+    }
 }

@@ -45,15 +45,33 @@ class MauticSubscriber implements SubscriberInterface
 
     public function needsUpdate(Cookie $cookie): bool
     {
+        $data = $cookie->getData();
+
         $isValidMauticId = !empty($this->mauticId);
         $isEmptyPersonaId = empty($cookie->getPersonaId());
         $isExpired = $cookie->getLastModified() < time() - 300;
 
-        return $isValidMauticId && ($isEmptyPersonaId || $isExpired);
+        $languageNeedsUpdate = !isset($data['mautic']['language'])
+            || $this->typoScriptFrontendController->sys_language_uid !== (int)$data['mautic']['language'];
+
+        return $isValidMauticId && ($isEmptyPersonaId || $isExpired || $languageNeedsUpdate);
     }
 
     public function update(Cookie $cookie): Cookie
     {
+        $data = $cookie->getData();
+
+        if (!isset($data['mautic']['language'])
+            || $this->typoScriptFrontendController->sys_language_uid !== (int)$data['mautic']['language']
+        ) {
+            $this->contactRepository->setContactData(
+                $this->mauticId,
+                [
+                    'preferred_locale' => $this->typoScriptFrontendController->sys_language_isocode,
+                ]
+            );
+        }
+
         $segments = $this->contactRepository->findContactSegments($this->mauticId);
         $segmentIds = array_map(
             function ($segment) {
@@ -61,18 +79,13 @@ class MauticSubscriber implements SubscriberInterface
             },
             $segments
         );
-
-        $personaSegments = $cookie->getData()['mautic']['segments'] ?? [];
-        if (empty(array_diff($segmentIds, $personaSegments))) {
-            return $cookie;
-        }
-
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
 
         return $cookie->withPersonaId($personaId)
             ->withData(
                 [
                     'mautic' => [
+                        'language' => $this->typoScriptFrontendController->sys_language_uid,
                         'segments' => $segmentIds,
                     ],
                 ]
