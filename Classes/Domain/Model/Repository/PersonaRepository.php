@@ -13,14 +13,20 @@ class PersonaRepository
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_marketingautomation_persona');
         $expressionBuilder = $queryBuilder->expr();
         $persona = $queryBuilder->select('*')
-            ->from('tx_marketingautomation_persona')
+            ->from('tx_marketingautomation_persona', 'persona')
+            ->leftJoin(
+                'persona',
+                'tx_marketingautomation_segment_mm',
+                'segment',
+                $expressionBuilder->eq('persona.uid', $queryBuilder->quoteIdentifier('segment.uid_foreign'))
+            )
             ->where(
                 $expressionBuilder->in(
-                    'uid',
+                    'segment.uid_local',
                     $queryBuilder->createNamedParameter($segments, Connection::PARAM_INT_ARRAY)
                 )
             )
-            ->orderBy('sorting')
+            ->orderBy('persona.sorting')
             ->setMaxResults(1)
             ->execute()
             ->fetchAll();
