@@ -31,6 +31,11 @@ class MauticSubscriber implements SubscriberInterface
      */
     protected $personaRepository;
 
+    /**
+     * @var bool
+     */
+    protected $languageNeedsUpdate = false;
+
     public function __construct(
         TypoScriptFrontendController $typoScriptFrontendController,
         ContactRepository $contactRepository = null,
@@ -43,27 +48,18 @@ class MauticSubscriber implements SubscriberInterface
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
 
-    public function needsUpdate(Cookie $cookie): bool
+    public function needsUpdate(Cookie $oldCookie, Cookie $newCookie): bool
     {
-        $data = $cookie->getData();
-
         $isValidMauticId = !empty($this->mauticId);
-        $isEmptyPersonaId = empty($cookie->getPersonaId());
-        $isExpired = $cookie->getLastModified() < time() - 300;
+        $isEmptyPersonaId = empty($oldCookie->getPersonaId());
+        $this->languageNeedsUpdate = $this->typoScriptFrontendController->sys_language_uid !== $oldCookie->getLanguage();
 
-        $languageNeedsUpdate = !isset($data['mautic']['language'])
-            || $this->typoScriptFrontendController->sys_language_uid !== (int)$data['mautic']['language'];
-
-        return $isValidMauticId && ($isEmptyPersonaId || $isExpired || $languageNeedsUpdate);
+        return $isValidMauticId && ($isEmptyPersonaId || $this->languageNeedsUpdate);
     }
 
     public function update(Cookie $cookie): Cookie
     {
-        $data = $cookie->getData();
-
-        if (!isset($data['mautic']['language'])
-            || $this->typoScriptFrontendController->sys_language_uid !== (int)$data['mautic']['language']
-        ) {
+        if ($this->languageNeedsUpdate) {
             $this->contactRepository->setContactData(
                 $this->mauticId,
                 [
@@ -81,14 +77,6 @@ class MauticSubscriber implements SubscriberInterface
         );
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
 
-        return $cookie->withPersonaId($personaId)
-            ->withData(
-                [
-                    'mautic' => [
-                        'language' => $this->typoScriptFrontendController->sys_language_uid,
-                        'segments' => $segmentIds,
-                    ],
-                ]
-            );
+        return $cookie->withPersonaId($personaId);
     }
 }
