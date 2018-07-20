@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Slot;
 
-use Bitmotion\MarketingAutomation\Cookie\Cookie;
-use Bitmotion\MarketingAutomation\Cookie\SubscriberInterface;
+use Bitmotion\MarketingAutomation\Dispatcher\SubscriberInterface;
+use Bitmotion\MarketingAutomation\Persona\Persona;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\PersonaRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,27 +37,27 @@ class MauticSubscriber implements SubscriberInterface
     protected $languageNeedsUpdate = false;
 
     public function __construct(
-        TypoScriptFrontendController $typoScriptFrontendController,
         ContactRepository $contactRepository = null,
-        PersonaRepository $personaRepository = null
+        PersonaRepository $personaRepository = null,
+        TypoScriptFrontendController $typoScriptFrontendController = null
     ) {
-        $this->typoScriptFrontendController = $typoScriptFrontendController;
         $this->contactRepository = $contactRepository ?: GeneralUtility::makeInstance(ContactRepository::class);
         $this->personaRepository = $personaRepository ?: GeneralUtility::makeInstance(PersonaRepository::class);
+        $this->typoScriptFrontendController = $typoScriptFrontendController ?: $GLOBALS['TSFE'];
 
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
 
-    public function needsUpdate(Cookie $oldCookie, Cookie $newCookie): bool
+    public function needsUpdate(Persona $currentPersona, Persona $newPersona): bool
     {
         $isValidMauticId = !empty($this->mauticId);
-        $isEmptyPersonaId = empty($oldCookie->getPersonaId());
-        $this->languageNeedsUpdate = $this->typoScriptFrontendController->sys_language_uid !== $oldCookie->getLanguage();
+        $isEmptyPersonaId = empty($currentPersona->getId());
+        $this->languageNeedsUpdate = $this->typoScriptFrontendController->sys_language_uid !== $currentPersona->getLanguage();
 
         return $isValidMauticId && ($isEmptyPersonaId || $this->languageNeedsUpdate);
     }
 
-    public function update(Cookie $cookie): Cookie
+    public function update(Persona $persona): Persona
     {
         if ($this->languageNeedsUpdate) {
             $this->contactRepository->setContactData(
@@ -77,6 +77,6 @@ class MauticSubscriber implements SubscriberInterface
         );
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
 
-        return $cookie->withPersonaId($personaId);
+        return $persona->withId($personaId);
     }
 }
