@@ -6,16 +6,12 @@ use Bitmotion\MarketingAutomation\Dispatcher\SubscriberInterface;
 use Bitmotion\MarketingAutomation\Persona\Persona;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\PersonaRepository;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
-class MauticSubscriber implements SubscriberInterface
+class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
-    /**
-     * @var TypoScriptFrontendController
-     */
-    protected $typoScriptFrontendController;
-
     /**
      * @var int
      */
@@ -38,12 +34,10 @@ class MauticSubscriber implements SubscriberInterface
 
     public function __construct(
         ContactRepository $contactRepository = null,
-        PersonaRepository $personaRepository = null,
-        TypoScriptFrontendController $typoScriptFrontendController = null
+        PersonaRepository $personaRepository = null
     ) {
         $this->contactRepository = $contactRepository ?: GeneralUtility::makeInstance(ContactRepository::class);
         $this->personaRepository = $personaRepository ?: GeneralUtility::makeInstance(PersonaRepository::class);
-        $this->typoScriptFrontendController = $typoScriptFrontendController ?: $GLOBALS['TSFE'];
 
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
@@ -52,22 +46,13 @@ class MauticSubscriber implements SubscriberInterface
     {
         $isValidMauticId = !empty($this->mauticId);
         $isEmptyPersonaId = empty($currentPersona->getId());
-        $this->languageNeedsUpdate = $this->typoScriptFrontendController->sys_language_uid !== $currentPersona->getLanguage();
+        $this->languageNeedsUpdate = $currentPersona->getLanguage() !== $newPersona->getLanguage();
 
         return $isValidMauticId && ($isEmptyPersonaId || $this->languageNeedsUpdate);
     }
 
     public function update(Persona $persona): Persona
     {
-        if ($this->languageNeedsUpdate) {
-            $this->contactRepository->setContactData(
-                $this->mauticId,
-                [
-                    'preferred_locale' => $this->typoScriptFrontendController->sys_language_isocode,
-                ]
-            );
-        }
-
         $segments = $this->contactRepository->findContactSegments($this->mauticId);
         $segmentIds = array_map(
             function ($segment) {
@@ -78,5 +63,17 @@ class MauticSubscriber implements SubscriberInterface
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
 
         return $persona->withId($personaId);
+    }
+
+    public function setPreferredLocale($_, TypoScriptFrontendController $typoScriptFrontendController)
+    {
+        if ($this->languageNeedsUpdate) {
+            $this->contactRepository->setContactData(
+                $this->mauticId,
+                [
+                    'preferred_locale' => $typoScriptFrontendController->sys_language_isocode,
+                ]
+            );
+        }
     }
 }

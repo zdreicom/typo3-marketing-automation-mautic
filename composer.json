@@ -23,6 +23,9 @@
         "marketing_automation_mautic": "self.version",
         "typo3-ter/marketing-automation-mautic": "self.version"
     },
+    "suggest": {
+        "sjbr/static-info-tables": "Extended language configuration for preferred locale for Mautic contacts"
+    },
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin"

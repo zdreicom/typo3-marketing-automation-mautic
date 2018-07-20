@@ -31,6 +31,7 @@ $EM_CONF[$_EXTKEY] = array (
     ),
     'suggests' =>
     array (
+      'static_info_tables' => '6.4.0',
     ),
   ),
   '_md5_values_when_last_written' => 'a:2:{s:13:"composer.json";s:4:"d49b";s:36:"Resources/Public/Icons/Extension.svg";s:4:"4473";}',
