@@ -21,7 +21,7 @@ class EditDocumentControllerSlot
 
     public function synchronizeSegments(EditDocumentController $editDocumentController)
     {
-        if (empty($_GET['tx_marketingautomation_segments']['updateSegments'])
+        if (empty(GeneralUtility::_GP('tx_marketingautomation_segments')['updateSegments'])
             || empty($editDocumentController->editconf['tx_marketingautomation_persona'])
         ) {
             return;
