@@ -41,6 +41,10 @@ class EditDocumentControllerSlot
         }
         $result->closeCursor();
 
+        $queryBuilder->update('tx_marketingautomation_segment')
+            ->set('deleted', 1)
+            ->execute();
+
         $segments = $this->segmentRepository->findAll();
         foreach ($segments as $segment) {
             $dateAdded = \DateTime::createFromFormat('Y-m-d\TH:i:sP', $segment['dateAdded']);
