@@ -9,6 +9,7 @@ $tempColumns = [
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
             'foreign_table' => 'tx_marketingautomation_segment',
+            'foreign_table_where' => 'ORDER BY title',
             'MM' => 'tx_marketingautomation_segment_mm',
             'MM_opposite_field' => 'items',
             'MM_match_fields' => [
