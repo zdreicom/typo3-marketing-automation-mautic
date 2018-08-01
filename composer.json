@@ -9,6 +9,10 @@
         "Mautic"
     ],
     "license": "GPL-2.0-or-later",
+    "homepage": "https://www.bitmotion.de",
+    "support": {
+        "issues": "https://github.com/bitmotion/typo3-marketing-automation-mautic/issues"
+    },
     "require": {
         "typo3/cms-core": "^8.7",
         "bitmotion/marketing-automation": "dev-master",
