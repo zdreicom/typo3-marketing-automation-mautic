@@ -1,6 +1,6 @@
 {
     "name": "bitmotion/marketing-automation-mautic",
-    "description": "Add-on TYPO3 extension that enhances the "marketing-automation" TYPO3 extension by connecting it to the Mautic Marketing Automation platform: Determine "Persona" from Mautic segments. Also provides additional services e.g. language synchronisation between Mautic and TYPO3.",
+    "description": "Add-on TYPO3 extension that enhances the \"EXT:marketing_automation\" TYPO3 extension by connecting it to the Mautic Marketing Automation platform: Determine \"Persona\" from Mautic segments. Also provides additional services e.g. language synchronisation between Mautic and TYPO3.",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
