@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\UserFunctions\Mautic;
 
+use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\SegmentRepository;
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use Mautic\Auth\AuthInterface;
 use Mautic\Exception\AbstractApiException;
@@ -29,18 +30,26 @@ class Authorize
     protected $extensionConfiguration;
 
     /**
+     * @var SegmentRepository
+     */
+    protected $segmentRepository;
+
+    /**
      * @var string
      */
     protected $messageQueueIdentifier = 'marketingautomation.mautic.flashMessages';
 
-    public function __construct()
-    {
+    public function __construct(
+        AuthInterface $authorization = null,
+        SegmentRepository $segmentRepository = null
+    ) {
         if (session_id() === '') {
             session_start();
         }
 
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
-        $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
+        $this->authorization = $authorization ?: AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
+        $this->segmentRepository = $segmentRepository ?: GeneralUtility::makeInstance(SegmentRepository::class, $this->authorization);
     }
 
     public function render(): string
@@ -130,6 +139,7 @@ class Authorize
                     $this->extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
                 }
 
+                $this->segmentRepository->initializeSegments();
                 $this->saveConfiguration();
             }
         } catch (AbstractApiException $e) {
