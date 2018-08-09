@@ -27,7 +27,7 @@ TYPO3:
           formEditor:
             dynamicRequireJsModules:
               additionalViewModelModules:
-                - 'TYPO3/CMS/Mautic/Backend/FormEditor/ViewModel'
+                - 'TYPO3/CMS/MarketingAutomationMautic/Backend/FormEditor/ViewModel'
             formEditorFluidConfiguration:
               partialRootPaths:
                 100: 'EXT:marketing_automation_mautic/Resources/Private/Backend/Partials/FormEditor/'
