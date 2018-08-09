@@ -47,9 +47,11 @@ class Authorize
             session_start();
         }
 
-        $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
-        $this->authorization = $authorization ?: AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
-        $this->segmentRepository = $segmentRepository ?: GeneralUtility::makeInstance(SegmentRepository::class, $this->authorization);
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'])) {
+            $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
+            $this->authorization = $authorization ?: AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
+            $this->segmentRepository = $segmentRepository ?: GeneralUtility::makeInstance(SegmentRepository::class, $this->authorization);
+        }
     }
 
     public function render(): string
