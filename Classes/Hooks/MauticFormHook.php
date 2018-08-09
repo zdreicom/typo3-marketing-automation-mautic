@@ -56,7 +56,7 @@ class MauticFormHook
         $form = $this->formApi->create($this->convertFormStructure($formDefinition));
         $formDefinition['renderingOptions']['mauticId'] = $form['form']['id'];
 
-        return $formDefinition;
+        return $this->setMauticFieldIds($form, $formDefinition);
     }
 
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
@@ -64,9 +64,14 @@ class MauticFormHook
         $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
         $configuration = $persistenceManager->load($formPersistenceIdentifier);
 
-        $this->formApi->edit($configuration['renderingOptions']['mauticId'], $this->convertFormStructure($formDefinition), true);
+        // In case the Mautic id is not present (can happen if create call failed earlier)
+        if (empty($configuration['renderingOptions']['mauticId'])) {
+            return $this->beforeFormCreate($formPersistenceIdentifier, $formDefinition);
+        }
 
-        return $formDefinition;
+        $form = $this->formApi->edit($configuration['renderingOptions']['mauticId'], $this->convertFormStructure($formDefinition), true);
+
+        return $this->setMauticFieldIds($form, $formDefinition);
     }
 
     public function beforeFormDuplicate(string $formPersistenceIdentifier, array $formDefinition): array
@@ -102,12 +107,12 @@ class MauticFormHook
         $returnFormStructure['fields'] = [];
 
         // Check for pages and other form elements that nest fields
-        foreach ((array)$formDefinition['renderables'] as $formPage) {
-            foreach ((array)$formPage['renderables'] as $formElement) {
+        foreach ((array)$formDefinition['renderables'] as $formPageKey => $formPage) {
+            foreach ((array)$formPage['renderables'] as $formElementKey => $formElement) {
                 if ($formElement['type'] === 'Fieldset' || $formElement['type'] === 'GridRow') {
-                    foreach ((array)$formElement['renderables'] as $containerElement) {
+                    foreach ((array)$formElement['renderables'] as $containerElementKey => $containerElement) {
                         if ($containerElement['type'] === 'Fieldset' || $containerElement['type'] === 'GridRow') {
-                            foreach ((array)$containerElement['renderables'] as $containerElementInner) {
+                            foreach ((array)$containerElement['renderables'] as $containerElementInnerKey => $containerElementInner) {
                                 $formPage['renderables'][] = $containerElementInner;
                             }
                         } else {
@@ -122,12 +127,10 @@ class MauticFormHook
                 if (isset(self::MAUTIC_FIELD_MAP[$formElement['type']])) {
                     $formField = [];
                     $formField['label'] = $formElement['label'] ?? $formElement['identifier'];
+                    $formField['alias'] = str_replace('-', '_', $formElement['identifier']);
 
-                    if (!empty($formElement['properties']['mauticAlias'])) {
-                        $formField['alias'] = $formElement['properties']['mauticAlias'];
-                    } else {
-                        $formField['alias'] = str_replace('-', '_', $formElement['identifier']);
-                        $formElement['properties']['mauticAlias'] = str_replace('-', '_', $formElement['identifier']);
+                    if (!empty($formElement['properties']['mauticId'])) {
+                        $formField['id'] = $formElement['properties']['mauticId'];
                     }
                     if (!empty($formElement['properties']['mauticTable'])) {
                         $formField['leadField'] = $formElement['properties']['mauticTable'];
@@ -166,10 +169,48 @@ class MauticFormHook
                     }
 
                     $returnFormStructure['fields'][] = $formField;
+
                 }
             }
         }
 
         return $returnFormStructure;
+    }
+
+    /**
+     * Retrieves the ids of Mautic fields so they can be saved for later use in editing
+     *
+     * @param array $mauticForm
+     * @param array $formDefinition
+     * @return array
+     */
+    private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
+    {
+        foreach ($mauticForm['form']['fields'] as $mauticField) {
+            foreach ((array)$formDefinition['renderables'] as $formPageKey => $formPage) {
+                foreach ((array)$formPage['renderables'] as $formElementKey => $formElement) {
+                    if ($formElement['type'] === 'Fieldset' || $formElement['type'] === 'GridRow') {
+                        foreach ((array)$formElement['renderables'] as $containerElementKey => $containerElement) {
+                            if ($containerElement['type'] === 'Fieldset' || $containerElement['type'] === 'GridRow') {
+                                foreach ((array)$containerElement['renderables'] as $containerElementInnerKey => $containerElementInner) {
+                                    if ($mauticField['alias'] === str_replace('-', '_', $containerElementInner['identifier'])) {
+                                        $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['renderables'][$containerElementInnerKey]['properties']['mauticId'] = $mauticField['id'];
+                                    }
+                                }
+                            } else {
+                                if ($mauticField['alias'] === str_replace('-', '_', $containerElement['identifier'])) {
+                                    $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['properties']['mauticId'] = $mauticField['id'];
+                                }
+                            }
+                        }
+                    }
+                    if ($mauticField['alias'] === str_replace('-', '_', $formElement['identifier'])) {
+                        $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['properties']['mauticId'] = $mauticField['id'];
+                    }
+                }
+            }
+        }
+
+        return $formDefinition;
     }
 }
