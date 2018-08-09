@@ -136,7 +136,6 @@ class MauticFormHook
                         $formField['defaultValue'] = $formElement['defaultValue'];
                     }
                     if (!empty($formElement['properties']['fluidAdditionalAttributes']['placeholder'])) {
-                        $formField['properties'] = [];
                         $formField['properties']['placeholder'] = $formElement['properties']['fluidAdditionalAttributes']['placeholder'];
                     }
 
