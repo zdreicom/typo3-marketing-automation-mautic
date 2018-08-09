@@ -1,0 +1,14 @@
+module.tx_form {
+    settings {
+        yamlConfigurations {
+            mautic = EXT:marketing_automation_mautic/Configuration/Yaml/Backend.yaml
+        }
+    }
+}
+plugin.tx_form {
+    settings {
+        yamlConfigurations {
+            mautic = EXT:marketing_automation_mautic/Configuration/Yaml/Frontend.yaml
+        }
+    }
+}

@@ -1,0 +1,34 @@
+TYPO3:
+  CMS:
+    Form:
+      persistenceManager:
+        allowedExtensionPaths:
+          mautic: EXT:marketing_automation_mautic/Resources/Private/Forms/
+
+      prototypes:
+        standard:
+          finishersDefinition:
+            MauticContactFinisher:
+              __inheritances:
+                10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticContactFinisher'
+
+            MauticFinisher:
+              __inheritances:
+                10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticFinisher'
+              FormEngine:
+                label: 'Mautic Finisher'
+                elements:
+                  mauticId:
+                    label: 'Mautic Form ID'
+                    config:
+                      type: 'input'
+
+        mautic_finisher_standalone_prototype:
+          __inheritances:
+            10: 'TYPO3.CMS.Form.prototypes.standard'
+
+        mautic_finisher_campaign_prototype:
+          __inheritances:
+            10: 'TYPO3.CMS.Form.prototypes.standard'
