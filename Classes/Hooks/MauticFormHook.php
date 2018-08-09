@@ -195,17 +195,20 @@ class MauticFormHook
                                 foreach ((array)$containerElement['renderables'] as $containerElementInnerKey => $containerElementInner) {
                                     if ($mauticField['alias'] === str_replace('-', '_', $containerElementInner['identifier'])) {
                                         $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['renderables'][$containerElementInnerKey]['properties']['mauticId'] = $mauticField['id'];
+                                        $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['renderables'][$containerElementInnerKey]['properties']['mauticAlias'] = str_replace('-', '_', $containerElementInner['identifier']);
                                     }
                                 }
                             } else {
                                 if ($mauticField['alias'] === str_replace('-', '_', $containerElement['identifier'])) {
                                     $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['properties']['mauticId'] = $mauticField['id'];
+                                    $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['renderables'][$containerElementKey]['properties']['mauticAlias'] = str_replace('-', '_', $containerElement['identifier']);
                                 }
                             }
                         }
                     }
                     if ($mauticField['alias'] === str_replace('-', '_', $formElement['identifier'])) {
                         $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['properties']['mauticId'] = $mauticField['id'];
+                        $formDefinition['renderables'][$formPageKey]['renderables'][$formElementKey]['properties']['mauticAlias'] = str_replace('-', '_', $formElement['identifier']);
                     }
                 }
             }
