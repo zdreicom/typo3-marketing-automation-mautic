@@ -43,13 +43,11 @@ class MauticFinisher extends AbstractFinisher
     private function transformFormStructure(array $formStructure): array
     {
         $mauticStructure = [];
-        // Recreate the array with the Id's of the Mautic fields as Mautic has an oblivious lock on field identifiers
         foreach ($formStructure as $key => $value) {
             if (empty($value)) {
                 continue;
             }
 
-            // Substitute the TYPO3identifier with the Mautic Alias
             $properties = $this->finisherContext->getFormRuntime()->getFormDefinition()->getElementByIdentifier($key)->getProperties();
             if (!empty($properties['mauticAlias'])) {
                 $mauticStructure[$properties['mauticAlias']] = $value;

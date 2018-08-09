@@ -30,7 +30,7 @@ class MauticContactFinisher extends AbstractFinisher
     }
 
     /**
-     * Creates a contact in Mautic if enough data is present from the colected form results
+     * Creates a contact in Mautic if enough data is present from the collected form results
      *
      * @return string|null
      * @api
