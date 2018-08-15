@@ -16,8 +16,6 @@ TYPO3:
             label: 'Mautic Form'
 
       prototypes:
-
-        ########### EXTEND STANDARD PROTOTYPE ###########
         mautic:
           __inheritances:
             10: 'TYPO3.CMS.Form.prototypes.standard'
@@ -41,6 +39,8 @@ TYPO3:
                 partialRootPaths:
                     1486978514: 'EXT:marketing_automation_mautic/Resources/Private/Frontend/Partials'
               formEditor:
+                predefinedDefaults:
+                  mauticFormType: 'mautic_finisher_standalone_prototype'
                 editors:
                   900:
                     selectOptions:
@@ -50,19 +50,26 @@ TYPO3:
                       1010:
                         value: 'MauticFinisher'
                         label: 'Send to Mautic Form'
+                  1534325664:
+                    identifier: 'mauticId'
+                    templateName: 'Inspector-TextEditor'
+                    label: 'Mautic Form ID'
+                    propertyPath: 'renderingOptions.mauticId'
+
                   1534323706:
                     identifier: 'mauticFormType'
                     templateName: 'Inspector-SingleSelectEditor'
                     label: 'Mautic Form Type'
-                    propertyPath: 'renderingOptions.submitButtonLabel'
+                    config:
+                      eval: 'required'
+                    propertyPath: 'mauticFormType'
                     selectOptions:
                       10:
-                        value: 'mautic_finisher_campaign_prototype'
-                        label: 'Campagin'
-                      20:
                         value: 'mautic_finisher_standalone_prototype'
                         label: 'Standalone'
-
+                      20:
+                        value: 'mautic_finisher_campaign_prototype'
+                        label: 'Campagin'
 
                 propertyCollections:
                   finishers:
@@ -127,16 +134,6 @@ TYPO3:
                     label: 'Mautic Form ID override'
                     config:
                       type: 'input'
-
-        ########### MAUTIC STANDALONE FORMS ###########
-        mautic_finisher_standalone_prototype:
-          __inheritances:
-            10: 'TYPO3.CMS.Form.prototypes.standard'
-
-        ########### MAUTIC CAMPAIGN FORMS ###########
-        mautic_finisher_campaign_prototype:
-          __inheritances:
-            10: 'TYPO3.CMS.Form.prototypes.standard'
 
       ########### MIXINS ###########
       mixins:

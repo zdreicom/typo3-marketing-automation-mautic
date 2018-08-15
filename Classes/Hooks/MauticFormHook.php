@@ -103,7 +103,7 @@ class MauticFormHook
         $returnFormStructure['alias'] = $formDefinition['identifier'];
         $returnFormStructure['isPublished'] = true;
         $returnFormStructure['postAction'] = 'return';
-        $returnFormStructure['formType'] = self::MAUTIC_FORM_PROTOTYPES[$formDefinition['prototypeName']];
+        $returnFormStructure['formType'] = self::MAUTIC_FORM_PROTOTYPES[$formDefinition['mauticFormType']];
         $returnFormStructure['fields'] = [];
 
         // Check for pages and other form elements that nest fields
