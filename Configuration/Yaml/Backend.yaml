@@ -136,7 +136,7 @@ TYPO3:
                 properties:
                   mauticTable: ''
               editors:
-                250:
+                1534323014:
                   identifier: 'mauticTable'
                   templateName: 'Inspector-MauticPropertySelectEditor'
                   label: 'Mautic Property Type'
