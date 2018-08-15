@@ -50,6 +50,18 @@ TYPO3:
                       1010:
                         value: 'MauticFinisher'
                         label: 'Send to Mautic Form'
+                  1534323706:
+                    identifier: 'mauticFormType'
+                    templateName: 'Inspector-SingleSelectEditor'
+                    label: 'Mautic Form Type'
+                    propertyPath: 'renderingOptions.submitButtonLabel'
+                    selectOptions:
+                      10:
+                        value: 'mautic_finisher_campaign_prototype'
+                        label: 'Campagin'
+                      20:
+                        value: 'mautic_finisher_standalone_prototype'
+                        label: 'Standalone'
 
 
                 propertyCollections:
