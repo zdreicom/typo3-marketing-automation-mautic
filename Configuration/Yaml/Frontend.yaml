@@ -6,7 +6,10 @@ TYPO3:
           mautic: EXT:marketing_automation_mautic/Resources/Private/Forms/
 
       prototypes:
-        standard:
+        mautic:
+          __inheritances:
+            10: 'TYPO3.CMS.Form.prototypes.standard'
+
           finishersDefinition:
             MauticContactFinisher:
               __inheritances:

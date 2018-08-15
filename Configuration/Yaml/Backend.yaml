@@ -12,18 +12,16 @@ TYPO3:
           1484232130:
             __inheritances:
               10: 'TYPO3.CMS.Form.formManager.selectablePrototypesConfiguration.100'
-            identifier: 'mautic_finisher_standalone_prototype'
-            label: 'Mautic Form (standalone)'
-          1484232131:
-            __inheritances:
-              10: 'TYPO3.CMS.Form.formManager.selectablePrototypesConfiguration.100'
-            identifier: 'mautic_finisher_campaign_prototype'
-            label: 'Mautic Form (campaign form)'
+            identifier: 'mautic'
+            label: 'Mautic Form'
 
       prototypes:
 
         ########### EXTEND STANDARD PROTOTYPE ###########
-        standard:
+        mautic:
+          __inheritances:
+            10: 'TYPO3.CMS.Form.prototypes.standard'
+
           formEditor:
             dynamicRequireJsModules:
               additionalViewModelModules:
