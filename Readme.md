@@ -1,4 +1,4 @@
-The Mautic extension for TYPO3 ![Travis](https://travis-ci.org/mautic/mautic-typo3.svg?branch=master "Travis build")
+The Mautic extension for TYPO3
 ===========
 ![Mautic](http://i.imgur.com/g56p37X.jpg "Mautic Open Source Marketing Automation together with the CMS power of TYPO3")
 
