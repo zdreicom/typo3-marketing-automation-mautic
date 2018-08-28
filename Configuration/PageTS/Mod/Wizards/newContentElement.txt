@@ -1,0 +1,17 @@
+ ################
+ #### Mautic ####
+ ################
+ mod.wizards.newContentElement.wizardItems {
+     mautic.header = LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:mautic
+     mautic.elements {
+        mautic_form {
+            iconIdentifier = content-form
+            title = LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form
+            description = LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form.description
+            tt_content_defValues {
+                CType = mautic_form
+            }
+        }
+    }
+    mautic.show := addToList(mautic_form)
+}

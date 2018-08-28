@@ -43,4 +43,8 @@ call_user_func(function () {
             $renderer->addJsInlineCode('Mautic', \Bitmotion\MarketingAutomationMautic\Service\MauticTrackingService::getTrackingCode());
         }
     }
+
+    // Register for hook to show preview of tt_content element of CType="mautic_form" in page module
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['mautic_form'] =
+        \BitMotion\MarketingAutomationMautic\Hooks\PageLayoutView\MauticFormPreviewRenderer::class;
 });

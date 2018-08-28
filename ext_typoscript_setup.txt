@@ -12,3 +12,12 @@ plugin.tx_form {
         }
     }
 }
+tt_content {
+    mautic_form =< lib.contentElement
+    mautic_form {
+        templateName = Form.html
+        dataProcessing {
+            1 = BitMotion\MarketingAutomationMautic\DataProcessing\MauticFormProcessor
+        }
+    }
+}

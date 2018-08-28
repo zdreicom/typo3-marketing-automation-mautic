@@ -36,3 +36,7 @@ CREATE TABLE tx_marketingautomation_segment_mm (
     KEY uid_local_foreign (uid_local,uid_foreign),
     KEY uid_foreign_tablefield (uid_foreign,tablenames(40),fieldname(3),sorting_foreign)
 );
+
+CREATE TABLE tt_content (
+    mautic_form_id int(11) unsigned DEFAULT '0',
+);
