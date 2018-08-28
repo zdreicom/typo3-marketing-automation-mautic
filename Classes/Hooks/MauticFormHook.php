@@ -6,6 +6,7 @@ namespace Bitmotion\MarketingAutomationMautic\Hooks;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Segments;
+use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -13,11 +14,17 @@ use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManager;
 
 class MauticFormHook
 {
+    /**
+     * @const MAUTIC_FORM_PROTOTYPES
+     */
     const MAUTIC_FORM_PROTOTYPES = [
         'mautic_finisher_campaign_prototype' => 'campaign',
         'mautic_finisher_standalone_prototype' => 'standalone',
     ];
 
+    /**
+     * @const MAUTIC_FIELD_MAP
+     */
     const MAUTIC_FIELD_MAP = [
         'Text' => 'text',
         'RadioButton' => 'radiogrp',
@@ -32,12 +39,20 @@ class MauticFormHook
         'AdvancedPassword' => 'password',
     ];
 
+    /**
+     * @const MULTI_ANSWER_FORM_FIELDS
+     */
     const MULTI_ANSWER_FORM_FIELDS = [
         'RadioButton' => 'optionlist',
         'MultiSelect' => 'list',
         'SingleSelect' => 'list',
         'MultiCheckbox' => 'optionlist',
     ];
+
+    /**
+     * @var AuthInterface
+     */
+    protected $authorization;
 
     /**
      * @var Segments
@@ -76,6 +91,7 @@ class MauticFormHook
      * @param string $formPersistenceIdentifier
      * @param array $formDefinition
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -109,6 +125,7 @@ class MauticFormHook
      *
      * @param string $formPersistenceIdentifier
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
@@ -218,7 +235,7 @@ class MauticFormHook
     private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
     {
         // In case Mautic is not reachable, prevent warnings
-        if (!is_array($mauticForm['form']['fields'])) {
+        if (!\is_array($mauticForm['form']['fields'])) {
             return $formDefinition;
         }
 
