@@ -38,8 +38,8 @@ call_user_func(function () {
     );
 
     if (TYPO3_MODE === 'FE') {
-        $extensionConfiguration = Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $mauticUrl = $extensionConfiguration->getBaseUrl();
+        $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
+        $mauticUrl = $extensionConfiguration['baseUrl'];
         if (!empty($mauticUrl) && $extensionConfiguration['tracking']) {
             $mauticUrl = rtrim($mauticUrl, '/').'/';
             $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
