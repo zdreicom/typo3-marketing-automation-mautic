@@ -12,6 +12,11 @@ plugin.tx_form {
         }
     }
 }
+lib.contentElement {
+    templateRootPaths {
+        200 = EXT:marketing_automation_mautic/Resources/Private/Templates/
+    }
+}
 tt_content {
     mautic_form =< lib.contentElement
     mautic_form {
