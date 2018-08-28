@@ -44,6 +44,10 @@ class MauticFormHook
      */
     protected $formApi;
 
+    /**
+     * MauticFormHook constructor.
+     * @throws \Mautic\Exception\ContextNotFoundException
+     */
     public function __construct()
     {
         $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
@@ -51,6 +55,13 @@ class MauticFormHook
         $this->formApi = $api->newApi('forms', $this->authorization, $this->authorization->getBaseUrl());
     }
 
+    /**
+     * Creates the form in Mautic
+     *
+     * @param string $formPersistenceIdentifier
+     * @param array $formDefinition
+     * @return array
+     */
     public function beforeFormCreate(string $formPersistenceIdentifier, array $formDefinition): array
     {
         $form = $this->formApi->create($this->convertFormStructure($formDefinition));
@@ -59,6 +70,13 @@ class MauticFormHook
         return $this->setMauticFieldIds($form, $formDefinition);
     }
 
+    /**
+     * Updates the form in Mautic. If not Mautic id is present the form is treated as a new form
+     *
+     * @param string $formPersistenceIdentifier
+     * @param array $formDefinition
+     * @return array
+     */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
     {
         $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
@@ -74,11 +92,24 @@ class MauticFormHook
         return $this->setMauticFieldIds($form, $formDefinition);
     }
 
+    /**
+     * Creates the duplicated form in Mautic. Duplicate form is treated as a new form
+     *
+     * @param string $formPersistenceIdentifier
+     * @param array $formDefinition
+     * @return array
+     */
     public function beforeFormDuplicate(string $formPersistenceIdentifier, array $formDefinition): array
     {
         return $this->beforeFormCreate($formPersistenceIdentifier, $formDefinition);
     }
 
+    /**
+     * Deletes the form in Mautic
+     *
+     * @param string $formPersistenceIdentifier
+     * @return string
+     */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
         $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
@@ -186,6 +217,11 @@ class MauticFormHook
      */
     private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
     {
+        // In case Mautic is not reachable, prevent warnings
+        if (!is_array($mauticForm['form']['fields'])) {
+            return $formDefinition;
+        }
+
         foreach ($mauticForm['form']['fields'] as $mauticField) {
             foreach ((array)$formDefinition['renderables'] as $formPageKey => $formPage) {
                 foreach ((array)$formPage['renderables'] as $formElementKey => $formElement) {
