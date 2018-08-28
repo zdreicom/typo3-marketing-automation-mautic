@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3_MODE') or die();
 
 call_user_func(function () {
@@ -35,4 +36,18 @@ call_user_func(function () {
             'source' => 'EXT:marketing_automation_mautic/Resources/Public/Icons/mautic.png',
         ]
     );
+
+    if (TYPO3_MODE === 'FE') {
+        $extensionConfiguration = Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
+        $mauticUrl = $extensionConfiguration->getBaseUrl();
+        if (!empty($mauticUrl) && $extensionConfiguration['tracking']) {
+            $mauticUrl = rtrim($mauticUrl, '/').'/';
+            $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+            $renderer->addJsInlineCode('Mautic', "(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+            w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+            m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','" .$mauticUrl."mtc.js','mt');
+            mt('send', 'pageview');");
+        }
+    }
 });
