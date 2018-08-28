@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BitMotion\MarketingAutomationMautic\DataProcessing;
+namespace Bitmotion\MarketingAutomationMautic\DataProcessing;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

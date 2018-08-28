@@ -22,7 +22,7 @@ tt_content {
     mautic_form {
         templateName = Form.html
         dataProcessing {
-            1 = BitMotion\MarketingAutomationMautic\DataProcessing\MauticFormProcessor
+            1 = Bitmotion\MarketingAutomationMautic\DataProcessing\MauticFormProcessor
         }
     }
 }

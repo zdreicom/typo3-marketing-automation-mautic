@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BitMotion\MarketingAutomationMautic\Hooks\PageLayoutView;
+namespace Bitmotion\MarketingAutomationMautic\Hooks\PageLayoutView;
 
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
