@@ -20,6 +20,11 @@ class MauticContactFinisher extends AbstractFinisher
      */
     protected $contactsApi;
 
+    /**
+     * MauticContactFinisher constructor.
+     * @param string $finisherIdentifier
+     * @throws \Mautic\Exception\ContextNotFoundException
+     */
     public function __construct(string $finisherIdentifier = '')
     {
         $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();

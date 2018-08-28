@@ -8,8 +8,15 @@ use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
 class MauticFinisher extends AbstractFinisher
 {
+    /**
+     * @var Mautic
+     */
     protected $mauticFormSubmitter;
 
+    /**
+     * MauticFinisher constructor.
+     * @param string $finisherIdentifier
+     */
     public function __construct(string $finisherIdentifier = '')
     {
         $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
