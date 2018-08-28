@@ -69,7 +69,7 @@ TYPO3:
                         label: 'Standalone'
                       20:
                         value: 'mautic_finisher_campaign_prototype'
-                        label: 'Campagin'
+                        label: 'Campaign'
 
                 propertyCollections:
                   finishers:
