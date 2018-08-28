@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Bitmotion\MarketingAutomationMautic\Service;
 
@@ -13,7 +14,7 @@ class MauticTrackingService
     {
         $config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
 
-        return $config['tracking'] ?? false;
+        return $config['tracking'] === '1';
     }
 
     /**
