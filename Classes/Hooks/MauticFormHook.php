@@ -20,17 +20,17 @@ class MauticFormHook
     protected $formRepository;
 
     /**
-     * @const MAUTIC_FORM_PROTOTYPES
+     * @var array
      */
-    const MAUTIC_FORM_PROTOTYPES = [
+    protected $MAUTIC_FORM_PROTOTYPES = [
         'mautic_finisher_campaign_prototype' => 'campaign',
         'mautic_finisher_standalone_prototype' => 'standalone',
     ];
 
     /**
-     * @const MAUTIC_FIELD_MAP
+     * @var array
      */
-    const MAUTIC_FIELD_MAP = [
+    protected $MAUTIC_FIELD_MAP = [
         'Text' => 'text',
         'RadioButton' => 'radiogrp',
         'Textarea' => 'textarea',
@@ -45,9 +45,9 @@ class MauticFormHook
     ];
 
     /**
-     * @const MULTI_ANSWER_FORM_FIELDS
+     * @var array
      */
-    const MULTI_ANSWER_FORM_FIELDS = [
+    protected $MULTI_ANSWER_FORM_FIELDS = [
         'RadioButton' => 'optionlist',
         'MultiSelect' => 'list',
         'SingleSelect' => 'list',
@@ -125,7 +125,7 @@ class MauticFormHook
         $returnFormStructure['alias'] = $formDefinition['identifier'];
         $returnFormStructure['isPublished'] = true;
         $returnFormStructure['postAction'] = 'return';
-        $returnFormStructure['formType'] = self::MAUTIC_FORM_PROTOTYPES[$formDefinition['mauticFormType']];
+        $returnFormStructure['formType'] = $this->MAUTIC_FORM_PROTOTYPES[$formDefinition['mauticFormType']];
         $returnFormStructure['fields'] = [];
 
         // Check for pages and other form elements that nest fields
@@ -146,7 +146,7 @@ class MauticFormHook
 
             // For each form element on the page
             foreach ((array)$formPage['renderables'] as $formElement) {
-                if (isset(self::MAUTIC_FIELD_MAP[$formElement['type']])) {
+                if (isset($this->MAUTIC_FIELD_MAP[$formElement['type']])) {
                     $formField = [];
                     $formField['label'] = $formElement['label'] ?? $formElement['identifier'];
                     $formField['alias'] = str_replace('-', '_', $formElement['identifier']);
@@ -164,7 +164,7 @@ class MauticFormHook
                         $formField['properties']['placeholder'] = $formElement['properties']['fluidAdditionalAttributes']['placeholder'];
                     }
 
-                    $formField['type'] = self::MAUTIC_FIELD_MAP[$formElement['type']];
+                    $formField['type'] = $this->MAUTIC_FIELD_MAP[$formElement['type']];
 
                     foreach ((array)$formElement['validators'] as $validator) {
                         if ($validator['identifier'] === 'NotEmpty') {
@@ -173,8 +173,8 @@ class MauticFormHook
                     }
 
                     // If the form field has options (e.g. RadioButton or a CheckList)
-                    if (isset(self::MULTI_ANSWER_FORM_FIELDS[$formElement['type']])) {
-                        $listIdentifier = self::MULTI_ANSWER_FORM_FIELDS[$formElement['type']];
+                    if (isset($this->MULTI_ANSWER_FORM_FIELDS[$formElement['type']])) {
+                        $listIdentifier = $this->MULTI_ANSWER_FORM_FIELDS[$formElement['type']];
 
                         $formField['properties'] = [];
                         $formField['properties'][$listIdentifier] = [];
