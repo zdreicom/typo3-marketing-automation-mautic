@@ -211,8 +211,8 @@ class MauticFormHook
                             $formField['properties']['multiple'] = 1;
                         }
 
-                        foreach ((array)$formElement['properties']['options'] as $key => $value) {
-                            $formField['properties'][$listIdentifier]['list'][] = ['label' => $key, 'value' => $value];
+                        foreach ((array)$formElement['properties']['options'] as $value => $label) {
+                            $formField['properties'][$listIdentifier]['list'][] = ['label' => $label, 'value' => $value];
                         }
                     }
 
