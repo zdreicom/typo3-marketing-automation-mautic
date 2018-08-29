@@ -5,10 +5,20 @@ namespace Bitmotion\MarketingAutomationMautic\Hooks;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\FormRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManager;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 class MauticFormHook
 {
+    /**
+     * @var FormPersistenceManagerInterface
+     */
+    protected $formPersistenceManager;
+
+    /**
+     * @var FormRepository
+     */
+    protected $formRepository;
+
     /**
      * @const MAUTIC_FORM_PROTOTYPES
      */
@@ -44,13 +54,14 @@ class MauticFormHook
         'MultiCheckbox' => 'optionlist',
     ];
 
-    /**
-     * @var FormRepository
-     */
-    protected $formRepository;
-
-    public function __construct(FormRepository $formRepository = null)
-    {
+    public function __construct(
+        FormPersistenceManagerInterface $formPersistenceManager = null,
+        FormRepository $formRepository = null
+    ) {
+        if ($formPersistenceManager === null) {
+            $formPersistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManagerInterface::class);
+        }
+        $this->formPersistenceManager = $formPersistenceManager;
         $this->formRepository = $formRepository ?: GeneralUtility::makeInstance(FormRepository::class);
     }
 
@@ -70,8 +81,7 @@ class MauticFormHook
      */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
     {
-        $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
-        $configuration = $persistenceManager->load($formPersistenceIdentifier);
+        $configuration = $this->formPersistenceManager->load($formPersistenceIdentifier);
 
         // In case the Mautic id is not present (can happen if create call failed earlier)
         if (empty($configuration['renderingOptions']['mauticId'])) {
@@ -98,8 +108,7 @@ class MauticFormHook
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
-        $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
-        $configuration = $persistenceManager->load($formPersistenceIdentifier);
+        $configuration = $this->formPersistenceManager->load($formPersistenceIdentifier);
 
         $this->formRepository->deleteForm((int)$configuration['renderingOptions']['mauticId']);
 
