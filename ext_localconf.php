@@ -4,8 +4,7 @@ defined('TYPO3_MODE') or die();
 
 call_user_func(function () {
     if (!class_exists('Mautic\\Auth\\ApiAuth')) {
-        $pharFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('marketing_automation_mautic') . 'Libraries/mautic-api-library.phar';
-        require 'phar://' . $pharFile . '/vendor/autoload.php';
+        require \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('marketing_automation_mautic') . 'Libraries/vendor/autoload.php';
     }
 
     $marketingDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Bitmotion\MarketingAutomation\Dispatcher\Dispatcher::class);
