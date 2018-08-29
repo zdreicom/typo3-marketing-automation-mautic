@@ -15,3 +15,6 @@ accessToken =
 
 # cat=Authorization/enable/60; type=string; label=LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.accessTokenSecret
 accessTokenSecret =
+
+# cat=Tracking/enable/10; type=boolean; label=LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:tracking.tracking
+tracking = 0

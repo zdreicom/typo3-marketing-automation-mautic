@@ -44,6 +44,9 @@ call_user_func(function () {
         ]
     );
 
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['marketing_automation_mautic'] =
+        \Bitmotion\MarketingAutomationMautic\Hooks\MauticTrackingHook::class . '->addTrackingCode';
+
     // Register for hook to show preview of tt_content element of CType="mautic_form" in page module
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['mautic_form'] =
         \Bitmotion\MarketingAutomationMautic\Hooks\PageLayoutView\MauticFormPreviewRenderer::class;
