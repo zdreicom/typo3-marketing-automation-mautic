@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Domain\Finishers;
 
-use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
+use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\FormRepository;
 use Escopecz\MauticFormSubmit\Mautic;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
 class MauticFinisher extends AbstractFinisher
@@ -11,20 +12,18 @@ class MauticFinisher extends AbstractFinisher
     /**
      * @var Mautic
      */
-    protected $mauticFormSubmitter;
+    protected $formRepository;
 
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct(string $finisherIdentifier = '', FormRepository $formRepository = null)
     {
-        $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $this->mauticFormSubmitter = new Mautic($authorization->getBaseUrl());
-
         parent::__construct($finisherIdentifier);
+
+        $this->formRepository = $formRepository ?: GeneralUtility::makeInstance(FormRepository::class);
     }
 
     /**
      * Post the form result to a Mautic form
      *
-     * @return string|null
      * @api
      */
     protected function executeInternal()
@@ -33,8 +32,7 @@ class MauticFinisher extends AbstractFinisher
         $mauticId = $this->parseOption('mauticId') ?? $formDefinition['mauticId'];
         $formValues = $this->transformFormStructure($this->finisherContext->getFormValues());
 
-        $form = $this->mauticFormSubmitter->getForm($mauticId);
-        $form->submit($formValues);
+        $this->formRepository->submitForm((int)$mauticId, $formValues);
     }
 
     /**

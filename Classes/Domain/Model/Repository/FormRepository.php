@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Domain\Model\Repository;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
+use Escopecz\MauticFormSubmit\Mautic;
 use Mautic\Api\Segments;
 use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
@@ -39,5 +40,12 @@ class FormRepository
     public function deleteForm(int $id): array
     {
         return $this->formsApi->delete($id) ?: [];
+    }
+
+    public function submitForm(int $id, array $data)
+    {
+        $mautic = new Mautic($this->authorization->getBaseUrl());
+        $form = $mautic->getForm($id);
+        $form->submit($data);
     }
 }
