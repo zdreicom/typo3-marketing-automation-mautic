@@ -2,10 +2,9 @@
 declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\ViewHelpers\Form;
 
-use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
+use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
 use Mautic\Api\Segments;
 use Mautic\Auth\AuthInterface;
-use Mautic\MauticApi;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
 
 class MauticPropertiesViewHelper extends SelectViewHelper
@@ -18,15 +17,13 @@ class MauticPropertiesViewHelper extends SelectViewHelper
     /**
      * @var Segments
      */
-    protected $contactFieldsApi;
+    protected $contactRepository;
 
-    public function __construct()
+    public function __construct(ContactRepository $contactRepository)
     {
         parent::__construct();
 
-        $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $api = new MauticApi();
-        $this->contactFieldsApi = $api->newApi('contactFields', $this->authorization, $this->authorization->getBaseUrl());
+        $this->contactRepository = $contactRepository;
     }
 
     /**
@@ -35,11 +32,11 @@ class MauticPropertiesViewHelper extends SelectViewHelper
     protected function getOptions(): array
     {
         $options = parent::getOptions();
-        $options[''] = 'None';
+        $options = array_replace(['' => 'None'], $options);
 
-        $contactFields = $this->contactFieldsApi->getList();
+        $contactFields = $this->contactRepository->findContactFields();
 
-        foreach ($contactFields['fields'] as $field) {
+        foreach ($contactFields as $field) {
             $options[$field['alias']] = $field['label'];
         }
 

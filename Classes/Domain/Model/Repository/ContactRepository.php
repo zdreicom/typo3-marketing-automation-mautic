@@ -33,6 +33,11 @@ class ContactRepository
         return $segments['lists'] ?? [];
     }
 
+    public function findContactFields(): array
+    {
+        return $this->contactsApi->getFieldList();
+    }
+
     public function createContact(array $parameters): array
     {
         return $this->contactsApi->create($parameters) ?: [];
