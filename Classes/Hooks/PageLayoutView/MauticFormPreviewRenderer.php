@@ -24,7 +24,13 @@ class MauticFormPreviewRenderer implements PageLayoutViewDrawItemHookInterface
         array &$row
     ) {
         if ($row['CType'] === 'mautic_form') {
+            $contentType = $parentObject->CType_labels[$row['CType']];
+            if (!empty($contentType)) {
+                $itemContent .= $parentObject->linkEditContent('<strong>' . htmlspecialchars($contentType) . '</strong>', $row) . '<br />';
+            }
+
             $itemContent .= '<p>[Mautic Form ID = ' . $row['mautic_form_id'] . ']</p>';
+
             $drawItem = false;
         }
     }
