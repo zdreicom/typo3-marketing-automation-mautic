@@ -2,35 +2,27 @@
 declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Domain\Finishers;
 
-use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
-use Mautic\Api\Segments;
-use Mautic\Auth\AuthInterface;
-use Mautic\MauticApi;
+use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
 class MauticContactFinisher extends AbstractFinisher
 {
     /**
-     * @var AuthInterface
+     * @var ContactRepository
      */
-    protected $authorization;
-
-    /**
-     * @var Segments
-     */
-    protected $contactsApi;
+    protected $contactRepository;
 
     /**
      * MauticContactFinisher constructor.
+     *
      * @throws \Mautic\Exception\ContextNotFoundException
      */
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct(string $finisherIdentifier = '', ContactRepository $contactRepository = null)
     {
-        $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $api = new MauticApi();
-        $this->contactsApi = $api->newApi('contacts', $this->authorization, $this->authorization->getBaseUrl());
-
         parent::__construct($finisherIdentifier);
+
+        $this->contactRepository = $contactRepository ?: GeneralUtility::makeInstance(ContactRepository::class);
     }
 
     /**
@@ -58,6 +50,6 @@ class MauticContactFinisher extends AbstractFinisher
         }
 
         $mauticFields['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-        $this->contactsApi->create($mauticFields);
+        $this->contactRepository->createContact($mauticFields);
     }
 }

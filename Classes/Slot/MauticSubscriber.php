@@ -68,7 +68,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
     public function setPreferredLocale($_, TypoScriptFrontendController $typoScriptFrontendController)
     {
         if ($this->languageNeedsUpdate) {
-            $this->contactRepository->setContactData(
+            $this->contactRepository->editContact(
                 $this->mauticId,
                 [
                     'preferred_locale' => $typoScriptFrontendController->sys_language_isocode,
