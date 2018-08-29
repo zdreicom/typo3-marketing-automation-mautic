@@ -44,13 +44,6 @@ call_user_func(function () {
         ]
     );
 
-    if (TYPO3_MODE === 'FE') {
-        if (\Bitmotion\MarketingAutomationMautic\Service\MauticTrackingService::trackingEnabled()) {
-            $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
-            $renderer->addJsInlineCode('Mautic', \Bitmotion\MarketingAutomationMautic\Service\MauticTrackingService::getTrackingCode());
-        }
-    }
-
     // Register for hook to show preview of tt_content element of CType="mautic_form" in page module
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['mautic_form'] =
         \Bitmotion\MarketingAutomationMautic\Hooks\PageLayoutView\MauticFormPreviewRenderer::class;

@@ -42,9 +42,6 @@
             <trans-unit id="authorization.success.message">
                 <source>Connection to Mautic REST API can be established.</source>
             </trans-unit>
-            <trans-unit id="tracking.enable">
-                <source>Enable Mautic user tracking</source>
-            </trans-unit>
         </body>
     </file>
 </xliff>
