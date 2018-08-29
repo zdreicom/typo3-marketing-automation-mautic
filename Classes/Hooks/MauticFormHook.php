@@ -1,11 +1,8 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Hooks;
 
-use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
-use Mautic\Api\Segments;
-use Mautic\Auth\AuthInterface;
-use Mautic\MauticApi;
+use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\FormRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManager;
@@ -48,24 +45,13 @@ class MauticFormHook
     ];
 
     /**
-     * @var AuthInterface
+     * @var FormRepository
      */
-    protected $authorization;
+    protected $formRepository;
 
-    /**
-     * @var Segments
-     */
-    protected $formApi;
-
-    /**
-     * MauticFormHook constructor.
-     * @throws \Mautic\Exception\ContextNotFoundException
-     */
-    public function __construct()
+    public function __construct(FormRepository $formRepository = null)
     {
-        $this->authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $api = new MauticApi();
-        $this->formApi = $api->newApi('forms', $this->authorization, $this->authorization->getBaseUrl());
+        $this->formRepository = $formRepository ?: GeneralUtility::makeInstance(FormRepository::class);
     }
 
     /**
@@ -73,7 +59,7 @@ class MauticFormHook
      */
     public function beforeFormCreate(string $formPersistenceIdentifier, array $formDefinition): array
     {
-        $form = $this->formApi->create($this->convertFormStructure($formDefinition));
+        $form = $this->formRepository->createForm($this->convertFormStructure($formDefinition));
         $formDefinition['renderingOptions']['mauticId'] = $form['form']['id'];
 
         return $this->setMauticFieldIds($form, $formDefinition);
@@ -92,7 +78,7 @@ class MauticFormHook
             return $this->beforeFormCreate($formPersistenceIdentifier, $formDefinition);
         }
 
-        $form = $this->formApi->edit($configuration['renderingOptions']['mauticId'], $this->convertFormStructure($formDefinition), true);
+        $form = $this->formRepository->editForm((int)$configuration['renderingOptions']['mauticId'], $this->convertFormStructure($formDefinition), true);
 
         return $this->setMauticFieldIds($form, $formDefinition);
     }
@@ -115,7 +101,7 @@ class MauticFormHook
         $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManager::class);
         $configuration = $persistenceManager->load($formPersistenceIdentifier);
 
-        $this->formApi->delete($configuration['renderingOptions']['mauticId']);
+        $this->formRepository->deleteForm((int)$configuration['renderingOptions']['mauticId']);
 
         return $formPersistenceIdentifier;
     }
@@ -190,7 +176,10 @@ class MauticFormHook
                         }
 
                         foreach ((array)$formElement['properties']['options'] as $value => $label) {
-                            $formField['properties'][$listIdentifier]['list'][] = ['label' => $label, 'value' => $value];
+                            $formField['properties'][$listIdentifier]['list'][] = [
+                                'label' => $label,
+                                'value' => $value,
+                            ];
                         }
                     }
 
