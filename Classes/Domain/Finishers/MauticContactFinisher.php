@@ -22,7 +22,6 @@ class MauticContactFinisher extends AbstractFinisher
 
     /**
      * MauticContactFinisher constructor.
-     * @param string $finisherIdentifier
      * @throws \Mautic\Exception\ContextNotFoundException
      */
     public function __construct(string $finisherIdentifier = '')

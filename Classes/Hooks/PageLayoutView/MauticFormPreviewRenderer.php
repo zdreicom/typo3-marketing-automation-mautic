@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace Bitmotion\MarketingAutomationMautic\Hooks\PageLayoutView;
 
 use TYPO3\CMS\Backend\View\PageLayoutView;
@@ -23,8 +22,7 @@ class MauticFormPreviewRenderer implements PageLayoutViewDrawItemHookInterface
         &$headerContent,
         &$itemContent,
         array &$row
-    )
-    {
+    ) {
         if ($row['CType'] === 'mautic_form') {
             $itemContent .= '<p>[Mautic Form ID = ' . $row['mautic_form_id'] . ']</p>';
             $drawItem = false;

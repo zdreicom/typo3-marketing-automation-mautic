@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
-
 namespace Bitmotion\MarketingAutomationMautic\Hooks;
-
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Segments;
@@ -72,10 +70,6 @@ class MauticFormHook
 
     /**
      * Creates the form in Mautic
-     *
-     * @param string $formPersistenceIdentifier
-     * @param array $formDefinition
-     * @return array
      */
     public function beforeFormCreate(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -86,10 +80,6 @@ class MauticFormHook
     }
 
     /**
-     * @param string $formPersistenceIdentifier
-     * @param array  $formDefinition
-     *
-     * @return array
      * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
      */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
@@ -109,10 +99,6 @@ class MauticFormHook
 
     /**
      * Creates the duplicated form in Mautic. Duplicate form is treated as a new form
-     *
-     * @param string $formPersistenceIdentifier
-     * @param array $formDefinition
-     * @return array
      */
     public function beforeFormDuplicate(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -122,9 +108,6 @@ class MauticFormHook
     /**
      * Deletes the form in Mautic
      *
-     * @param string $formPersistenceIdentifier
-     *
-     * @return string
      * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
@@ -139,13 +122,9 @@ class MauticFormHook
 
     /**
      * Converts the TYPO3 form structure to a Mautic form structure
-     *
-     * @param array $formDefinition
-     * @return array
      */
     private function convertFormStructure(array &$formDefinition): array
     {
-
         $returnFormStructure = [];
         $returnFormStructure['name'] = $formDefinition['label'];
         $returnFormStructure['alias'] = $formDefinition['identifier'];
@@ -200,7 +179,6 @@ class MauticFormHook
 
                     // If the form field has options (e.g. RadioButton or a CheckList)
                     if (isset(self::MULTI_ANSWER_FORM_FIELDS[$formElement['type']])) {
-
                         $listIdentifier = self::MULTI_ANSWER_FORM_FIELDS[$formElement['type']];
 
                         $formField['properties'] = [];
@@ -217,7 +195,6 @@ class MauticFormHook
                     }
 
                     $returnFormStructure['fields'][] = $formField;
-
                 }
             }
         }
@@ -227,10 +204,6 @@ class MauticFormHook
 
     /**
      * Retrieves the ids of Mautic fields so they can be saved for later use in editing
-     *
-     * @param array $mauticForm
-     * @param array $formDefinition
-     * @return array
      */
     private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
     {

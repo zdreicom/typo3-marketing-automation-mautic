@@ -31,8 +31,6 @@ class MauticPropertiesViewHelper extends SelectViewHelper
 
     /**
      * Fills the form engine dropdown with all known Mautic contact field types
-     *
-     * @return array
      */
     protected function getOptions(): array
     {

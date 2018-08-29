@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 defined('TYPO3_MODE') || die();
 /***************
  * Add Content Element
@@ -50,12 +51,12 @@ $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
     $GLOBALS['TCA']['tt_content']['columns'],
     [
         'mautic_form_id' => [
-            'label'  => 'LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:mautic_form.id',
+            'label' => 'LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:mautic_form.id',
             'config' => [
-                'type'    => 'input',
-                'eval'    => 'required,int',
+                'type' => 'input',
+                'eval' => 'required,int',
                 'default' => '0',
-                'max'     => 11,
+                'max' => 11,
             ],
         ],
     ]

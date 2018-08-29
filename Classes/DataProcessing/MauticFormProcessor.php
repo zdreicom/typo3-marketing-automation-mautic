@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace Bitmotion\MarketingAutomationMautic\DataProcessing;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
@@ -37,15 +36,12 @@ class MauticFormProcessor implements DataProcessorInterface
         array $contentObjectConfiguration,
         array $processorConfiguration,
         array $processedData
-    ): array
-    {
+    ): array {
         $processedData['mauticBaseUrl'] = $this->baseUrl;
+
         return $processedData;
     }
 
-    /**
-     * @return ObjectManager
-     */
     protected function getObjectManager(): ObjectManager
     {
         return GeneralUtility::makeInstance(ObjectManager::class);
