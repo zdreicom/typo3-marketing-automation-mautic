@@ -86,12 +86,11 @@ class MauticFormHook
     }
 
     /**
-     * Updates the form in Mautic. If not Mautic id is present the form is treated as a new form
-     *
      * @param string $formPersistenceIdentifier
-     * @param array $formDefinition
+     * @param array  $formDefinition
+     *
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
      */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -124,8 +123,9 @@ class MauticFormHook
      * Deletes the form in Mautic
      *
      * @param string $formPersistenceIdentifier
+     *
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
