@@ -19,7 +19,7 @@ class OAuth implements AuthInterface
     public function __construct(AuthInterface $authorization, string $baseUrl)
     {
         $this->authorization = $authorization;
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     public function __call($method, $arguments)

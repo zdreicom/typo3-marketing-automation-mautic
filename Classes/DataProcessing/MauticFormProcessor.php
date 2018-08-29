@@ -1,10 +1,8 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\DataProcessing;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -18,7 +16,7 @@ class MauticFormProcessor implements DataProcessorInterface
     public function __construct()
     {
         $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $this->baseUrl = rtrim($authorization->getBaseUrl(), '/');
+        $this->baseUrl = $authorization->getBaseUrl();
     }
 
     /**
@@ -40,10 +38,5 @@ class MauticFormProcessor implements DataProcessorInterface
         $processedData['mauticBaseUrl'] = $this->baseUrl;
 
         return $processedData;
-    }
-
-    protected function getObjectManager(): ObjectManager
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 }

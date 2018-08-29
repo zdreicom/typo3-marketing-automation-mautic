@@ -1,5 +1,4 @@
 <?php
-
 defined('TYPO3_MODE') or die();
 
 call_user_func(function () {
@@ -12,6 +11,15 @@ call_user_func(function () {
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['settingLanguage_postProcess']['marketing_automation_mautic'] =
         \Bitmotion\MarketingAutomationMautic\Slot\MauticSubscriber::class . '->setPreferredLocale';
+
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\Bitmotion\MarketingAutomationMautic\Form\FormDataProvider\MauticFormDataProvider::class] = [
+        'depends' => [
+            \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowDefaultValues::class,
+        ],
+        'before' => [
+            \TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems::class,
+        ],
+    ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1530047235] = [
         'nodeName' => 'updateSegmentsControl',
