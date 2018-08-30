@@ -52,6 +52,12 @@ class MauticFormHook
         'list' => true,
     ];
 
+    /**
+     * MauticFormHook constructor.
+     *
+     * @param FormPersistenceManagerInterface|null $formPersistenceManager
+     * @param FormRepository|null                  $formRepository
+     */
     public function __construct(
         FormPersistenceManagerInterface $formPersistenceManager = null,
         FormRepository $formRepository = null
@@ -65,6 +71,11 @@ class MauticFormHook
 
     /**
      * Creates the form in Mautic
+     *
+     * @param string $formPersistenceIdentifier
+     * @param array  $formDefinition
+     *
+     * @return array
      */
     public function beforeFormCreate(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -75,7 +86,10 @@ class MauticFormHook
     }
 
     /**
-     * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
+     * @param string $formPersistenceIdentifier
+     * @param array  $formDefinition
+     *
+     * @return array
      */
     public function beforeFormSave(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -93,6 +107,11 @@ class MauticFormHook
 
     /**
      * Creates the duplicated form in Mautic. Duplicate form is treated as a new form
+     *
+     * @param string $formPersistenceIdentifier
+     * @param array  $formDefinition
+     *
+     * @return array
      */
     public function beforeFormDuplicate(string $formPersistenceIdentifier, array $formDefinition): array
     {
@@ -102,7 +121,9 @@ class MauticFormHook
     /**
      * Deletes the form in Mautic
      *
-     * @throws \TYPO3\CMS\Form\Mvc\Persistence\Exception\PersistenceManagerException
+     * @param string $formPersistenceIdentifier
+     *
+     * @return string
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
@@ -115,6 +136,10 @@ class MauticFormHook
 
     /**
      * Converts the TYPO3 form structure to a Mautic form structure
+     *
+     * @param array $formDefinition
+     *
+     * @return array
      */
     private function convertFormStructure(array &$formDefinition): array
     {
@@ -204,6 +229,11 @@ class MauticFormHook
 
     /**
      * Retrieves the ids of Mautic fields so they can be saved for later use in editing
+     *
+     * @param array $mauticForm
+     * @param array $formDefinition
+     *
+     * @return array
      */
     private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
     {
