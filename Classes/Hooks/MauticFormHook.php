@@ -47,11 +47,9 @@ class MauticFormHook
     /**
      * @var array
      */
-    protected $MULTI_ANSWER_FORM_FIELDS = [
-        'RadioButton' => 'optionlist',
-        'MultiSelect' => 'list',
-        'SingleSelect' => 'list',
-        'MultiCheckbox' => 'optionlist',
+    protected $ALLOWED_MULTI_ANSWER_FORM_FIELDS = [
+        'optionlist' => true,
+        'list' => true,
     ];
 
     public function __construct(
@@ -173,22 +171,26 @@ class MauticFormHook
                     }
 
                     // If the form field has options (e.g. RadioButton or a CheckList)
-                    if (isset($this->MULTI_ANSWER_FORM_FIELDS[$formElement['type']])) {
-                        $listIdentifier = $this->MULTI_ANSWER_FORM_FIELDS[$formElement['type']];
+                    if (isset($formElement['mauticFieldTypeMapping'])) {
+                        if (isset($this->ALLOWED_MULTI_ANSWER_FORM_FIELDS[$formElement['mauticFieldTypeMapping']])) {
+                            $listIdentifier = $formElement['mauticFieldTypeMapping'];
 
-                        $formField['properties'] = [];
-                        $formField['properties'][$listIdentifier] = [];
-                        $formField['properties'][$listIdentifier]['list'] = [];
+                            $formField['properties'] = [];
+                            $formField['properties'][$listIdentifier] = [];
+                            $formField['properties'][$listIdentifier]['list'] = [];
 
-                        if ($formElement['type'] === 'MultiSelect') {
-                            $formField['properties']['multiple'] = 1;
-                        }
+                            if ($formElement['type'] === 'MultiSelect') {
+                                $formField['properties']['multiple'] = 1;
+                            }
 
-                        foreach ((array)$formElement['properties']['options'] as $value => $label) {
-                            $formField['properties'][$listIdentifier]['list'][] = [
-                                'label' => $label,
-                                'value' => $value,
-                            ];
+                            foreach ((array)$formElement['properties']['options'] as $value => $label) {
+                                $formField['properties'][$listIdentifier]['list'][] = [
+                                    'label' => $label,
+                                    'value' => $value,
+                                ];
+                            }
+                        } else {
+                            // ToDo: Log this?
                         }
                     }
 

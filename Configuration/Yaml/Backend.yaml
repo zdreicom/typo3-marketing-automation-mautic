@@ -32,6 +32,7 @@ TYPO3:
 
             formEditorPartials:
               Inspector-MauticPropertySelectEditor: 'Inspector/MauticPropertySelectEditor'
+              Inspector-MauticHiddenFieldEditor: 'Inspector/MauticHiddenFieldEditor'
 
           formElementsDefinition:
             Form:
@@ -99,15 +100,19 @@ TYPO3:
             MultiCheckbox:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeOptionlistMixin'
             MultiSelect:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeListMixin'
             RadioButton:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeOptionlistMixin'
             SingleSelect:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeListMixin'
             DatePicker:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
@@ -150,6 +155,27 @@ TYPO3:
                   templateName: 'Inspector-MauticPropertySelectEditor'
                   label: 'Mautic Property Type'
                   propertyPath: 'properties.mauticTable'
+
+          mauticFieldTypeMixin:
+            formEditor:
+              predefinedDefaults:
+                mauticFieldTypeMapping: ''
+              editors:
+                1535608981:
+                  identifier: 'mauticFieldTypeMapping'
+                  templateName: 'Inspector-MauticHiddenFieldEditor'
+                  propertyPath: 'mauticFieldTypeMapping'
+                  label: 'bla'
+
+          mauticFieldTypeListMixin:
+            formEditor:
+              predefinedDefaults:
+                mauticFieldTypeMapping: 'list'
+
+          mauticFieldTypeOptionlistMixin:
+            formEditor:
+              predefinedDefaults:
+                mauticFieldTypeMapping: 'optionlist'
 
           mauticFinisherMixin:
             editors:
