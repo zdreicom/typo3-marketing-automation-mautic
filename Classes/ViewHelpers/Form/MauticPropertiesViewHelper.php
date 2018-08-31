@@ -3,19 +3,12 @@ declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\ViewHelpers\Form;
 
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
-use Mautic\Api\Segments;
-use Mautic\Auth\AuthInterface;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
 
 class MauticPropertiesViewHelper extends SelectViewHelper
 {
     /**
-     * @var AuthInterface
-     */
-    protected $authorization;
-
-    /**
-     * @var Segments
+     * @var ContactRepository
      */
     protected $contactRepository;
 
