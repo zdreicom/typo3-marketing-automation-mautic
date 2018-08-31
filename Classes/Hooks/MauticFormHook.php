@@ -24,7 +24,7 @@ class MauticFormHook
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    protected $logger;
 
     /**
      * @var array
@@ -67,14 +67,15 @@ class MauticFormHook
      */
     public function __construct(
         FormPersistenceManagerInterface $formPersistenceManager = null,
-        FormRepository $formRepository = null
+        FormRepository $formRepository = null,
+        LoggerInterface $logger = null
     ) {
         if ($formPersistenceManager === null) {
             $formPersistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(FormPersistenceManagerInterface::class);
         }
         $this->formPersistenceManager = $formPersistenceManager;
         $this->formRepository = $formRepository ?: GeneralUtility::makeInstance(FormRepository::class);
-        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        $this->logger = $logger ?: GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
@@ -231,7 +232,10 @@ class MauticFormHook
                                 ];
                             }
                         } else {
-                            $this->logger->notice('Unknow Mautic multi-answer list type encountered.', ['fieldType' => $formElement['type'], 'listType' => $formElement['mauticFieldTypeMapping']]);
+                            $this->logger->notice('Unknow Mautic multi-answer list type encountered.', [
+                                'fieldType' => $formElement['type'],
+                                'listType' => $formElement['mauticFieldTypeMapping'],
+                            ]);
                         }
                     }
 
