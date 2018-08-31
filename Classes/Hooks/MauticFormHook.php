@@ -3,6 +3,8 @@ declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Hooks;
 
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\FormRepository;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
@@ -18,6 +20,11 @@ class MauticFormHook
      * @var FormRepository
      */
     protected $formRepository;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var array
@@ -67,6 +74,7 @@ class MauticFormHook
         }
         $this->formPersistenceManager = $formPersistenceManager;
         $this->formRepository = $formRepository ?: GeneralUtility::makeInstance(FormRepository::class);
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
@@ -223,11 +231,13 @@ class MauticFormHook
                                 ];
                             }
                         } else {
-                            // ToDo: Log this?
+                            $this->logger->notice('Unknow Mautic multi-answer list type encountered.', ['fieldType' => $formElement['type'], 'listType' => $formElement['mauticFieldTypeMapping']]);
                         }
                     }
 
                     $returnFormStructure['fields'][] = $formField;
+                } else {
+                    $this->logger->notice('Unknow Mautic form field type encountered.', ['fieldType' => $formElement['type']]);
                 }
             }
         }
