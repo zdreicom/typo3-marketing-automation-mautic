@@ -41,7 +41,8 @@ TYPO3:
                     1486978514: 'EXT:marketing_automation_mautic/Resources/Private/Frontend/Partials'
               formEditor:
                 predefinedDefaults:
-                  mauticFormType: 'mautic_finisher_standalone_prototype'
+                  renderingOptions:
+                    mauticFormType: 'mautic_finisher_standalone_prototype'
                 editors:
                   900:
                     selectOptions:
@@ -63,7 +64,7 @@ TYPO3:
                     label: 'Mautic Form Type'
                     config:
                       eval: 'required'
-                    propertyPath: 'mauticFormType'
+                    propertyPath: 'renderingOptions.mauticFormType'
                     selectOptions:
                       10:
                         value: 'mautic_finisher_standalone_prototype'

@@ -82,6 +82,11 @@ class MauticFormHook
         $form = $this->formRepository->createForm($this->convertFormStructure($formDefinition));
         $formDefinition['renderingOptions']['mauticId'] = $form['form']['id'];
 
+        // Predefined defaults seem not to be working, temporary workaround
+        if (!isset($formDefinition['renderingOptions']['mauticFormType'])) {
+            $formDefinition['renderingOptions']['mauticFormType'] = 'mautic_finisher_standalone_prototype';
+        }
+
         return $this->setMauticFieldIds($form, $formDefinition);
     }
 
@@ -148,7 +153,7 @@ class MauticFormHook
         $returnFormStructure['alias'] = $formDefinition['identifier'];
         $returnFormStructure['isPublished'] = true;
         $returnFormStructure['postAction'] = 'return';
-        $returnFormStructure['formType'] = $this->MAUTIC_FORM_PROTOTYPES[$formDefinition['mauticFormType']];
+        $returnFormStructure['formType'] = $this->MAUTIC_FORM_PROTOTYPES[$formDefinition['renderingOptions']['mauticFormType']];
         $returnFormStructure['fields'] = [];
 
         // Check for pages and other form elements that nest fields
