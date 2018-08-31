@@ -34,4 +34,4 @@ Then you must go into the backend of Mautic and create a pair of OAuth1a tokens.
 You can contribute by making a pull request to the master branch of this repository.
 
 ## Questions or Suggestions?
-You can always open an issue in this repository if you find a bug or have a feature request. Next to that you can also come visit us on Slack via <https://mautic.slack.com>.
+You can always open an issue in this repository if you find a bug or have a feature request. Next to that you can also come visit us on Slack via <https://mautic.slack.com> in the channel `#typo3-mautic`.
