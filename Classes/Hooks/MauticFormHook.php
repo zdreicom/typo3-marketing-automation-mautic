@@ -186,6 +186,9 @@ class MauticFormHook
                     if (!empty($formElement['properties']['fluidAdditionalAttributes']['placeholder'])) {
                         $formField['properties']['placeholder'] = $formElement['properties']['fluidAdditionalAttributes']['placeholder'];
                     }
+                    if (!empty($formElement['properties']['elementDescription'])) {
+                        $formField['helpMessage'] = $formElement['properties']['elementDescription'];
+                    }
 
                     $formField['type'] = $this->MAUTIC_FIELD_MAP[$formElement['type']];
 
