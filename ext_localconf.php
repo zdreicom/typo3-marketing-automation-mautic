@@ -9,6 +9,10 @@ call_user_func(function () {
     $marketingDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Bitmotion\MarketingAutomation\Dispatcher\Dispatcher::class);
     $marketingDispatcher->addSubscriber(\Bitmotion\MarketingAutomationMautic\Slot\MauticSubscriber::class);
 
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:marketing_automation_mautic/Configuration/PageTS/Mod/Wizards/newContentElement.txt">'
+    );
+
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['settingLanguage_postProcess']['marketing_automation_mautic'] =
         \Bitmotion\MarketingAutomationMautic\Slot\MauticSubscriber::class . '->setPreferredLocale';
 
