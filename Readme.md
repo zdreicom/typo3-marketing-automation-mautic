@@ -14,6 +14,12 @@ With the Mautic extension for TYPO3 you can create your forms in the TYPO3 backe
 ### Form Contact Creation
 Immediately create contacts through forms by assigning lead fields to form fields directly from the TYPO3 form engine!
 
+### Mautic Form Content Element
+If you wish to use Mautic forms directly, you can now add them with the Mautic Form content element that comes shipped with this extension.
+
+### Tracking Script Integration
+Integrate the Mautic tracking script into your frontend with one click of a button!
+
 ### OAuth support
 All requests made by this extension are secured using OAuth1a. You can easily configure your API tokens in the extension manager of TYPO3.
 
