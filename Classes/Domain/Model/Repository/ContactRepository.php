@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Bitmotion\MarketingAutomationMautic\Domain\Model\Repository;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
-use Mautic\Api\Segments;
+use Mautic\Api\Contacts;
 use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
 
@@ -15,7 +15,7 @@ class ContactRepository
     protected $authorization;
 
     /**
-     * @var Segments
+     * @var Contacts
      */
     protected $contactsApi;
 
