@@ -215,9 +215,9 @@ class MauticFormHook
                     }
 
                     // If the form field has options (e.g. RadioButton or a CheckList)
-                    if (isset($formElement['mauticFieldTypeMapping'])) {
-                        if (isset($this->ALLOWED_MULTI_ANSWER_FORM_FIELDS[$formElement['mauticFieldTypeMapping']])) {
-                            $listIdentifier = $formElement['mauticFieldTypeMapping'];
+                    if (isset($formElement['properties']['mauticListIdentifier'])) {
+                        if (isset($this->ALLOWED_MULTI_ANSWER_FORM_FIELDS[$formElement['properties']['mauticListIdentifier']])) {
+                            $listIdentifier = $formElement['properties']['mauticListIdentifier'];
 
                             $formField['properties'] = [];
                             $formField['properties'][$listIdentifier] = [];
