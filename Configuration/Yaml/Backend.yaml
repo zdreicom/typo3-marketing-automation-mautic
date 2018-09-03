@@ -23,7 +23,7 @@ TYPO3:
           formEditor:
             dynamicRequireJsModules:
               additionalViewModelModules:
-                - 'TYPO3/CMS/MarketingAutomationMautic/Backend/FormEditor/ViewModel'
+              - 'TYPO3/CMS/MarketingAutomationMautic/Backend/FormEditor/ViewModel'
             formEditorFluidConfiguration:
               partialRootPaths:
                 100: 'EXT:marketing_automation_mautic/Resources/Private/Backend/Partials/FormEditor/'
@@ -38,7 +38,7 @@ TYPO3:
             Form:
               renderingOptions:
                 partialRootPaths:
-                    1486978514: 'EXT:marketing_automation_mautic/Resources/Private/Frontend/Partials'
+                  1486978514: 'EXT:marketing_automation_mautic/Resources/Private/Frontend/Partials'
               formEditor:
                 predefinedDefaults:
                   renderingOptions:
@@ -77,49 +77,60 @@ TYPO3:
                   finishers:
                     1000:
                       __inheritances:
-                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticContactFinisherMixin'
+                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ContactFinisherMixin'
                       identifier: 'MauticContactFinisher'
                     1010:
                       __inheritances:
-                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFinisherMixin'
+                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FinisherMixin'
                       identifier: 'MauticFinisher'
             Text:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeTextMixin'
             Password:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypePasswordMixin'
             AdvancedPassword:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypePasswordMixin'
             Textarea:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeTextareaMixin'
             Checkbox:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeCheckboxMixin'
             MultiCheckbox:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
-                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeOptionlistMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeCheckboxGroupMixin'
+                300: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ListIdentifierOptionlistMixin'
             MultiSelect:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
-                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeListMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeSelectMixin'
+                300: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ListIdentifierListMixin'
             RadioButton:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
-                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeOptionlistMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeRadioButtonGroupMixin'
+                300: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ListIdentifierOptionlistMixin'
             SingleSelect:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
-                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFieldTypeListMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeSelectMixin'
+                300: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ListIdentifierListMixin'
             DatePicker:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeDateMixin'
             Hidden:
               __inheritances:
-                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mauticFormElementMixin'
+                100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
+                200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeHiddenMixin'
 
           finishersDefinition:
             MauticContactFinisher:
@@ -145,57 +156,101 @@ TYPO3:
       mixins:
         ########### FORM ELEMENT MIXINS ###########
         formElementMixins:
-          mauticFormElementMixin:
-            formEditor:
-              predefinedDefaults:
-                properties:
-                  mauticTable: ''
-              editors:
-                1534323014:
-                  identifier: 'mauticTable'
-                  templateName: 'Inspector-MauticPropertySelectEditor'
-                  label: 'Mautic Property Type'
-                  propertyPath: 'properties.mauticTable'
+          mautic:
+            FormElementMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticTable: ''
+                editors:
+                  1534323014:
+                    identifier: 'mauticTable'
+                    templateName: 'Inspector-MauticPropertySelectEditor'
+                    label: 'Mautic Property Type'
+                    propertyPath: 'properties.mauticTable'
 
-          mauticFieldTypeMixin:
-            formEditor:
-              predefinedDefaults:
-                properties:
-                  mauticListIdentifier: ''
+            FieldTypeCheckboxMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'checkbox'
+
+            FieldTypeCheckboxGroupMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'checkboxgrp'
+
+            FieldTypeDateMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'date'
+
+            FieldTypeHiddenMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'hidden'
+
+            FieldTypeTextMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'text'
+
+            FieldTypeRadioButtonGroupMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'radiogrp'
+
+            FieldTypeTextareaMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'textarea'
+
+            FieldTypePasswordMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'password'
+
+            FieldTypeSelectMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticFieldType: 'select'
+
+
+            ListIdentifierListMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticListIdentifier: 'list'
+
+            ListIdentifierOptionlistMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticListIdentifier: 'optionlist'
+
+            FinisherMixin:
               editors:
-                1535620782:
-                  identifier: 'mauticListIdentifier'
+                __inheritances:
+                  10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
+                100:
+                  label: 'Send to Mautic Form'
+                200:
+                  identifier: 'mauticId'
                   templateName: 'Inspector-TextEditor'
-                  label: 'foo'
-                  propertyPath: 'properties.mauticListIdentifier'
+                  label: 'Mautic Form ID override'
+                  propertyPath: 'options.mauticId'
 
-          mauticFieldTypeListMixin:
-            formEditor:
-              predefinedDefaults:
-                properties:
-                  mauticListIdentifier: 'list'
-
-          mauticFieldTypeOptionlistMixin:
-            formEditor:
-              predefinedDefaults:
-                properties:
-                  mauticListIdentifier: 'optionlist'
-
-          mauticFinisherMixin:
-            editors:
-              __inheritances:
-                10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
-              100:
-                label: 'Send to Mautic Form'
-              200:
-                identifier: 'mauticId'
-                templateName: 'Inspector-TextEditor'
-                label: 'Mautic Form ID override'
-                propertyPath: 'options.mauticId'
-
-          mauticContactFinisherMixin:
-            editors:
-              __inheritances:
-                10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
-              100:
-                label: 'Create Mautic Contact'
+            ContactFinisherMixin:
+              editors:
+                __inheritances:
+                  10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
+                100:
+                  label: 'Create Mautic Contact'
