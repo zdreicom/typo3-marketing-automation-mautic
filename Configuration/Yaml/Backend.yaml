@@ -160,23 +160,26 @@ TYPO3:
           mauticFieldTypeMixin:
             formEditor:
               predefinedDefaults:
-                mauticFieldTypeMapping: ''
+                properties:
+                  mauticListIdentifier: ''
               editors:
-                1535608981:
-                  identifier: 'mauticFieldTypeMapping'
-                  templateName: 'Inspector-MauticHiddenFieldEditor'
-                  propertyPath: 'mauticFieldTypeMapping'
-                  label: 'bla'
+                1535620782:
+                  identifier: 'mauticListIdentifier'
+                  templateName: 'Inspector-TextEditor'
+                  label: 'foo'
+                  propertyPath: 'properties.mauticListIdentifier'
 
           mauticFieldTypeListMixin:
             formEditor:
               predefinedDefaults:
-                mauticFieldTypeMapping: 'list'
+                properties:
+                  mauticListIdentifier: 'list'
 
           mauticFieldTypeOptionlistMixin:
             formEditor:
               predefinedDefaults:
-                mauticFieldTypeMapping: 'optionlist'
+                properties:
+                  mauticListIdentifier: 'optionlist'
 
           mauticFinisherMixin:
             editors:
