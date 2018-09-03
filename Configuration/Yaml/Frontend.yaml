@@ -1,10 +1,6 @@
 TYPO3:
   CMS:
     Form:
-      persistenceManager:
-        allowedExtensionPaths:
-          mautic: EXT:marketing_automation_mautic/Resources/Private/Forms/
-
       prototypes:
         mautic:
           __inheritances:
