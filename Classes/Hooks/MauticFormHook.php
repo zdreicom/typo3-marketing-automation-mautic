@@ -100,6 +100,8 @@ class MauticFormHook
     }
 
     /**
+     * Updates the form in Mautic
+     *
      * @param string $formPersistenceIdentifier
      * @param array  $formDefinition
      *
