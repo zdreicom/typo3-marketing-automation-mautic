@@ -5,7 +5,6 @@ namespace Bitmotion\MarketingAutomationMautic\Domain\Model\Repository;
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use Escopecz\MauticFormSubmit\Mautic;
 use Mautic\Api\Forms;
-use Mautic\Api\Segments;
 use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
 
