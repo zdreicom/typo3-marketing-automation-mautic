@@ -6,6 +6,7 @@ use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\FormRepository;
 use Escopecz\MauticFormSubmit\Mautic;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
+use TYPO3\CMS\Form\Domain\Model\FormElements\GenericFormElement;
 
 class MauticFinisher extends AbstractFinisher
 {
@@ -46,9 +47,13 @@ class MauticFinisher extends AbstractFinisher
                 continue;
             }
 
-            $properties = $this->finisherContext->getFormRuntime()->getFormDefinition()->getElementByIdentifier($key)->getProperties();
-            if (!empty($properties['mauticAlias'])) {
-                $mauticStructure[$properties['mauticAlias']] = $value;
+            $formElement = $this->finisherContext->getFormRuntime()->getFormDefinition()->getElementByIdentifier($key);
+
+            if ($formElement instanceof GenericFormElement) {
+                $properties = $formElement->getProperties();
+                if (!empty($properties['mauticAlias'])) {
+                    $mauticStructure[$properties['mauticAlias']] = $value;
+                }
             }
         }
 

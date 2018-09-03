@@ -5,6 +5,7 @@ namespace Bitmotion\MarketingAutomationMautic\Domain\Finishers;
 use Bitmotion\MarketingAutomationMautic\Domain\Model\Repository\ContactRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
+use TYPO3\CMS\Form\Domain\Model\FormElements\GenericFormElement;
 
 class MauticContactFinisher extends AbstractFinisher
 {
@@ -38,10 +39,13 @@ class MauticContactFinisher extends AbstractFinisher
         $mauticFields = [];
 
         foreach ($this->finisherContext->getFormValues() as $key => $value) {
-            $properties = $formDefinition->getElementByIdentifier($key)->getProperties();
+            $formElement = $formDefinition->getElementByIdentifier($key);
 
-            if (!empty($properties['mauticTable'])) {
-                $mauticFields[$properties['mauticTable']] = $value;
+            if ($formElement instanceof GenericFormElement) {
+                $properties = $formElement->getProperties();
+                if (!empty($properties['mauticTable'])) {
+                    $mauticFields[$properties['mauticTable']] = $value;
+                }
             }
         }
 
