@@ -104,6 +104,10 @@ class Authorize
             );
         }
 
+        if (0 === strpos($this->extensionConfiguration['baseUrl'], 'http:')) {
+            return $this->showUnsecureConnectionInformation();
+        }
+
         return $this->showSuccessMessage();
     }
 
@@ -172,6 +176,19 @@ class Authorize
         return $flashMessageQueue->renderFlashMessages();
     }
 
+    protected function showWarningMessage(string $title = null, string $message = null): string
+    {
+        $title = $title ?: $this->getLanguageServer()->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.warning.title');
+        $message = $message ?: $this->getLanguageServer()->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.warning.message');
+
+        $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, $title, FlashMessage::WARNING);
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier($this->messageQueueIdentifier);
+        $flashMessageQueue->enqueue($flashMessage);
+
+        return $flashMessageQueue->renderFlashMessages();
+    }
+
     protected function showSuccessMessage(string $title = null, string $message = null): string
     {
         $title = $title ?: $this->getLanguageServer()->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.success.title');
@@ -196,6 +213,15 @@ class Authorize
         );
 
         return $this->showErrorMessage($title, $message);
+    }
+
+    protected function showUnsecureConnectionInformation(): string
+    {
+        $languageService = $this->getLanguageServer();
+        $title = $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.unsecureConnection.title');
+        $message = $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.unsecureConnection.message');
+
+        return $this->showWarningMessage($title, $message);
     }
 
     protected function saveConfiguration()
