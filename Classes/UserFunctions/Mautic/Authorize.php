@@ -220,12 +220,14 @@ class Authorize
         $minimum = explode('.', $this->minimumMauticVersion);
 
         if ($current[0] === $minimum[0]
-        && (int)$current[1] > (int)$minimum[1]) {
+            && (int)$current[1] > (int)$minimum[1]
+        ) {
             return true;
         }
         if ($current[0] === $minimum[0]
             && $current[1] === $minimum[1]
-        && (int)$current[2] >= (int)$minimum[2]) {
+            && (int)$current[2] >= (int)$minimum[2]
+        ) {
             return true;
         }
 
