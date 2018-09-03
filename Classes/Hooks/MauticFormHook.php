@@ -37,18 +37,16 @@ class MauticFormHook
     /**
      * @var array
      */
-    protected $MAUTIC_FIELD_MAP = [
-        'Text' => 'text',
-        'RadioButton' => 'radiogrp',
-        'Textarea' => 'textarea',
-        'Checkbox' => 'checkbox',
-        'MultiSelect' => 'select',
-        'SingleSelect' => 'select',
-        'MultiCheckbox' => 'checkboxgrp',
-        'DatePicker' => 'date',
-        'Hidden' => 'hidden',
-        'Password' => 'password',
-        'AdvancedPassword' => 'password',
+    protected $ALLOWED_FIELD_TYPES = [
+        'checkbox' => true,
+        'checkboxgrp' => true,
+        'date' => true,
+        'hidden' => true,
+        'text' => true,
+        'radiogrp' => true,
+        'textarea' => true,
+        'password' => true,
+        'select' => true,
     ];
 
     /**
@@ -64,6 +62,7 @@ class MauticFormHook
      *
      * @param FormPersistenceManagerInterface|null $formPersistenceManager
      * @param FormRepository|null                  $formRepository
+     * @param LoggerInterface|null                 $logger
      */
     public function __construct(
         FormPersistenceManagerInterface $formPersistenceManager = null,
@@ -185,7 +184,7 @@ class MauticFormHook
 
             // For each form element on the page
             foreach ((array)$formPage['renderables'] as $formElement) {
-                if (isset($this->MAUTIC_FIELD_MAP[$formElement['type']])) {
+                if (isset($this->ALLOWED_FIELD_TYPES[$formElement['properties']['mauticFieldType']])) {
                     $formField = [];
                     $formField['label'] = $formElement['label'] ?? $formElement['identifier'];
                     $formField['alias'] = str_replace('-', '_', $formElement['identifier']);
@@ -206,7 +205,7 @@ class MauticFormHook
                         $formField['helpMessage'] = $formElement['properties']['elementDescription'];
                     }
 
-                    $formField['type'] = $this->MAUTIC_FIELD_MAP[$formElement['type']];
+                    $formField['type'] = $formElement['properties']['mauticFieldType'];
 
                     foreach ((array)$formElement['validators'] as $validator) {
                         if ($validator['identifier'] === 'NotEmpty') {
