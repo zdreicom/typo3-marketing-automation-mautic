@@ -39,6 +39,11 @@ class Authorize
      */
     protected $messageQueueIdentifier = 'marketingautomation.mautic.flashMessages';
 
+    /**
+     * @var string
+     */
+    protected $minimumMauticVersion = '2.14.0';
+
     public function __construct(
         AuthInterface $authorization = null,
         SegmentRepository $segmentRepository = null
@@ -77,8 +82,12 @@ class Authorize
         $api = new MauticApi();
         $api = $api->getContext('contacts', $this->authorization, $this->authorization->getBaseUrl());
         $api->getList('', 0, 1);
-        if ($api->getMauticVersion() === null) {
+        $version = $api->getMauticVersion();
+        if ($version === null) {
             return $this->showErrorMessage();
+        }
+        if (!$this->checkMinimumMauticVersion($version)) {
+            return $this->showIncorrectVersionInformation($version);
         }
 
         unset($_SESSION['oauth']);
@@ -176,6 +185,19 @@ class Authorize
         return $flashMessageQueue->renderFlashMessages();
     }
 
+    protected function showIncorrectVersionInformation(string $version): string
+    {
+        $languageService = $this->getLanguageServer();
+        $title = $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.wrongMauticVersion.title');
+        $message = sprintf(
+            $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_em.xlf:authorization.wrongMauticVersion.message'),
+            $version,
+            $this->minimumMauticVersion
+        );
+
+        return $this->showErrorMessage($title, $message);
+    }
+
     protected function saveConfiguration()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -190,5 +212,23 @@ class Authorize
     protected function getLanguageServer(): LanguageService
     {
         return $GLOBALS['LANG'];
+    }
+
+    protected function checkMinimumMauticVersion(string $version): bool
+    {
+        $current = explode('.', $version);
+        $minimum = explode('.', $this->minimumMauticVersion);
+
+        if ($current[0] === $minimum[0]
+        && (int)$current[1] > (int)$minimum[1]) {
+            return true;
+        }
+        if ($current[0] === $minimum[0]
+            && $current[1] === $minimum[1]
+        && (int)$current[2] >= (int)$minimum[2]) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -30,6 +30,12 @@
             <trans-unit id="authorization.withMautic">
                 <source>Authorize with Mautic</source>
             </trans-unit>
+            <trans-unit id="authorization.wrongMauticVersion.title">
+                <source>Your Mautic installation is out of date</source>
+            </trans-unit>
+            <trans-unit id="authorization.wrongMauticVersion.message">
+                <source>Your Mautic installation is running version %s. The minimum version required is %s.</source>
+            </trans-unit>
             <trans-unit id="authorization.error.title">
                 <source>An error occurred</source>
             </trans-unit>
