@@ -228,6 +228,7 @@ class MauticFormHook
                             $formField['properties'][$listIdentifier] = [];
                             $formField['properties'][$listIdentifier]['list'] = [];
 
+                            // TODO: Replace static setter
                             if ($formElement['type'] === 'MultiSelect') {
                                 $formField['properties']['multiple'] = 1;
                             }
