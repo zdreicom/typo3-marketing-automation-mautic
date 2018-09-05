@@ -192,7 +192,7 @@ class MauticFormHook
             foreach ((array)$formPage['renderables'] as $formElement) {
                 if (isset($this->ALLOWED_FIELD_TYPES[$formElement['properties']['mauticFieldType']])) {
                     $formField = [];
-                    $formField['label'] = $formElement['label'] ?? $formElement['identifier'];
+                    $formField['label'] = (!empty($formElement['label']) ? $formElement['label'] : $formElement['identifier']);
                     $formField['alias'] = str_replace('-', '_', $formElement['identifier']);
 
                     if (!empty($formElement['properties']['mauticId'])) {
