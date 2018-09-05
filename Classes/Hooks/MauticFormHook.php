@@ -239,6 +239,24 @@ class MauticFormHook
                                     'value' => $value,
                                 ];
                             }
+
+                            // Hook for injecting custom options
+                            if (
+                                isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'])
+                                && is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'])
+                            ) {
+                                foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'] as $className) {
+                                    $hookObj = GeneralUtility::makeInstance($className);
+                                    if (method_exists($hookObj, 'injectOptions')) {
+                                        $formField['properties'][$listIdentifier]['list'] = $hookObj->injectOptions(
+                                            $this,
+                                            $formElement,
+                                            $formField['properties'][$listIdentifier]['list']
+                                        );
+                                    }
+                                }
+                            }
+
                         } else {
                             $this->logger->notice('Unknow Mautic multi-answer list type encountered.', [
                                 'fieldType' => $formElement['type'],
