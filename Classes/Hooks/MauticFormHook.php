@@ -117,6 +117,12 @@ class MauticFormHook
 
         $form = $this->formRepository->editForm((int)$configuration['renderingOptions']['mauticId'], $this->convertFormStructure($formDefinition), true);
 
+        if (isset($form['errors'])) {
+            foreach ($form['errors'] as $error) {
+                $this->logger->error($error['code'] . ':' . $error['message']);
+            }
+        }
+
         return $this->setMauticFieldIds($form, $formDefinition);
     }
 
