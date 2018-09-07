@@ -12,6 +12,11 @@ TYPO3:
                 10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'
               implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticContactFinisher'
 
+            MauticCompanyFinisher:
+              __inheritances:
+                10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticCompanyFinisher'
+
             MauticFinisher:
               __inheritances:
                 10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'

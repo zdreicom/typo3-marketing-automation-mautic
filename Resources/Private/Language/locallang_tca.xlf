@@ -22,6 +22,12 @@
             <trans-unit id="mautic_form.id">
                 <source>Mautic Form ID</source>
             </trans-unit>
+            <trans-unit id="mautic.contact">
+                <source>Contact</source>
+            </trans-unit>
+            <trans-unit id="mautic.company">
+                <source>Company</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

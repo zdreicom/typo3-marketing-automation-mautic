@@ -52,6 +52,9 @@ TYPO3:
                       1010:
                         value: 'MauticFinisher'
                         label: 'Send to Mautic Form'
+                      1020:
+                        value: 'MauticCompanyFinisher'
+                        label: 'Create Mautic Company'
                   1534325664:
                     identifier: 'mauticId'
                     templateName: 'Inspector-TextEditor'
@@ -83,6 +86,10 @@ TYPO3:
                       __inheritances:
                         10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FinisherMixin'
                       identifier: 'MauticFinisher'
+                    1020:
+                      __inheritances:
+                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.CompanyFinisherMixin'
+                      identifier: 'MauticCompanyFinisher'
             Text:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
@@ -135,6 +142,10 @@ TYPO3:
           finishersDefinition:
             MauticContactFinisher:
               implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticContactFinisher'
+              formEditor:
+                iconIdentifier: 't3-form-icon-finisher'
+            MauticCompanyFinisher:
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticCompanyFinisher'
               formEditor:
                 iconIdentifier: 't3-form-icon-finisher'
             MauticFinisher:
@@ -254,3 +265,10 @@ TYPO3:
                   10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
                 100:
                   label: 'Create Mautic Contact'
+
+            CompanyFinisherMixin:
+              editors:
+                __inheritances:
+                  10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
+                100:
+                  label: 'Create Mautic Company'
