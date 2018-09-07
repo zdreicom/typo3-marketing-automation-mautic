@@ -28,11 +28,3 @@ TYPO3:
                     label: 'Mautic Form ID'
                     config:
                       type: 'input'
-
-        mautic_finisher_standalone_prototype:
-          __inheritances:
-            10: 'TYPO3.CMS.Form.prototypes.standard'
-
-        mautic_finisher_campaign_prototype:
-          __inheritances:
-            10: 'TYPO3.CMS.Form.prototypes.standard'
