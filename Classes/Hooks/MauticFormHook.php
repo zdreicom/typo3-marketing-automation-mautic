@@ -156,7 +156,7 @@ class MauticFormHook
      *
      * @return array
      */
-    private function convertFormStructure(array &$formDefinition): array
+    protected function convertFormStructure(array &$formDefinition): array
     {
         $returnFormStructure = [];
         $returnFormStructure['name'] = $formDefinition['label'];
@@ -258,7 +258,7 @@ class MauticFormHook
      *
      * @return array
      */
-    private function setMauticFieldIds(array $mauticForm, array $formDefinition): array
+    protected function setMauticFieldIds(array $mauticForm, array $formDefinition): array
     {
         // In case Mautic is not reachable, prevent warnings
         if (!\is_array($mauticForm['form']['fields'])) {
