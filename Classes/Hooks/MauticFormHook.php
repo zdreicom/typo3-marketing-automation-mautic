@@ -52,9 +52,16 @@ class MauticFormHook
     /**
      * @var array
      */
-    protected $ALLOWED_MULTI_ANSWER_FORM_FIELDS = [
+    protected $ALLOWED_FORM_FIELD_LIST_TYPES = [
         'optionlist' => true,
         'list' => true,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $ALLOWED_MULTIPLE_ANSWER_FORM_FIELDS = [
+        'MultiSelect' => true,
     ];
 
     /**
@@ -221,15 +228,14 @@ class MauticFormHook
 
                     // If the form field has options (e.g. RadioButton or a CheckList)
                     if (isset($formElement['properties']['mauticListIdentifier'])) {
-                        if (isset($this->ALLOWED_MULTI_ANSWER_FORM_FIELDS[$formElement['properties']['mauticListIdentifier']])) {
+                        if (isset($this->ALLOWED_FORM_FIELD_LIST_TYPES[$formElement['properties']['mauticListIdentifier']])) {
                             $listIdentifier = $formElement['properties']['mauticListIdentifier'];
 
                             $formField['properties'] = [];
                             $formField['properties'][$listIdentifier] = [];
                             $formField['properties'][$listIdentifier]['list'] = [];
 
-                            // TODO: Replace static setter
-                            if ($formElement['type'] === 'MultiSelect') {
+                            if (isset($this->ALLOWED_MULTIPLE_ANSWER_FORM_FIELDS[$formElement['type']])) {
                                 $formField['properties']['multiple'] = 1;
                             }
 
@@ -243,7 +249,7 @@ class MauticFormHook
                             // Hook for injecting custom options
                             if (
                                 isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'])
-                                && is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'])
+                                && \is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'])
                             ) {
                                 foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/marketing-automation-mautic']['injectOptions'] as $className) {
                                     $hookObj = GeneralUtility::makeInstance($className);
