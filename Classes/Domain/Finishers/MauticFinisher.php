@@ -38,6 +38,10 @@ class MauticFinisher extends AbstractFinisher
 
     /**
      * Transform the TYPO3 form structure to a Mautic structure
+     *
+     * @param array $formStructure
+     *
+     * @return array
      */
     private function transformFormStructure(array $formStructure): array
     {
