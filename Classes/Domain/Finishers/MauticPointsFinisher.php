@@ -40,7 +40,7 @@ class MauticPointsFinisher extends AbstractFinisher
         }
 
         $data = [];
-        $data['eventName'] = $this->parseOption('mauticEventName');
+        $data['eventName'] = $this->parseOption('mauticEventName') ?? '';
 
         $this->contactRepository->modifyContactPoints($this->mauticId, $pointsModifier, $data);
     }
