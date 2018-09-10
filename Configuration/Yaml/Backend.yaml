@@ -55,6 +55,9 @@ TYPO3:
                       1020:
                         value: 'MauticCompanyFinisher'
                         label: 'Create Mautic Company'
+                      1030:
+                        value: 'MauticPointsFinisher'
+                        label: 'Modify Mautic Contact Points'
                   1534325664:
                     identifier: 'mauticId'
                     templateName: 'Inspector-TextEditor'
@@ -90,6 +93,10 @@ TYPO3:
                       __inheritances:
                         10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.CompanyFinisherMixin'
                       identifier: 'MauticCompanyFinisher'
+                    1030:
+                      __inheritances:
+                        10: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.PointsFinisherMixin'
+                      identifier: 'MauticPointsFinisher'
             Text:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
@@ -160,6 +167,25 @@ TYPO3:
                 elements:
                   mauticId:
                     label: 'Mautic Form ID override'
+                    config:
+                      type: 'input'
+            MauticPointsFinisher:
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticPointsFinisher'
+              formEditor:
+                iconIdentifier: 't3-form-icon-finisher'
+                predefinedDefaults:
+                  options:
+                    mauticPointsModifier: 0
+                    mauticEventName: ''
+              FormEngine:
+                label: 'Mautic Points Finisher'
+                elements:
+                  mauticPointsModifier:
+                    label: 'Points modifier'
+                    config:
+                      type: 'input'
+                  mauticEventName:
+                    label: 'Mautic event name'
                     config:
                       type: 'input'
 
@@ -272,3 +298,21 @@ TYPO3:
                   10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
                 100:
                   label: 'Create Mautic Company'
+
+            PointsFinisherMixin:
+              editors:
+                __inheritances:
+                  10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
+                100:
+                  label: 'Modify Mautic Contact Points'
+                200:
+                  identifier: 'mauticPointsModifier'
+                  templateName: 'Inspector-TextEditor'
+                  label: 'Modify contacts points by'
+                  propertyPath: 'options.mauticPointsModifier'
+                300:
+                  identifier: 'mauticEventName'
+                  templateName: 'Inspector-TextEditor'
+                  label: 'Mautic event name'
+                  propertyPath: 'options.mauticEventName'
+                  doNotSetIfPropertyValueIsEmpty: true

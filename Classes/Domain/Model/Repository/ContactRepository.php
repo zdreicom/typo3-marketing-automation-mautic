@@ -47,4 +47,13 @@ class ContactRepository
     {
         $this->contactsApi->edit($id, $data, false);
     }
+
+    public function modifyContactPoints(int $id, int $modifier, array $data = [])
+    {
+        if ($modifier > 0) {
+            $this->contactsApi->addPoints($id, $modifier, $data);
+        } else {
+            $this->contactsApi->subtractPoints($id, $modifier * -1, $data);
+        }
+    }
 }

@@ -28,3 +28,19 @@ TYPO3:
                     label: 'Mautic Form ID'
                     config:
                       type: 'input'
+
+            MauticPointsFinisher:
+              __inheritances:
+                10: 'TYPO3.CMS.Form.mixins.finishersEmailMixin'
+              implementationClassName: 'Bitmotion\MarketingAutomationMautic\Domain\Finishers\MauticPointsFinisher'
+              FormEngine:
+                label: 'Modify Mautic Contact Points'
+                elements:
+                  mauticPointsModifier:
+                    label: 'Points modifier'
+                    config:
+                      type: 'input'
+                  mauticEventName:
+                    label: 'Mautic event name'
+                    config:
+                      type: 'input'
