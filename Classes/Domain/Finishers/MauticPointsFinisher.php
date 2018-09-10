@@ -33,11 +33,12 @@ class MauticPointsFinisher extends AbstractFinisher
      */
     protected function executeInternal()
     {
-        if (0 === $this->mauticId) {
+        $pointsModifier = (int)($this->parseOption('mauticPointsModifier') ?? 0);
+
+        if (0 === $this->mauticId || 0 === $pointsModifier) {
             return;
         }
 
-        $pointsModifier = (int)$this->parseOption('mauticPointsModifier');
         $data = [];
         $data['eventName'] = $this->parseOption('mauticEventName');
 
