@@ -47,4 +47,9 @@ class ContactRepository
     {
         $this->contactsApi->edit($id, $data, false);
     }
+
+    public function getContact(int $id): array
+    {
+        return $this->contactsApi->get($id);
+    }
 }
