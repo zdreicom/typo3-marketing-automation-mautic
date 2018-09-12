@@ -58,13 +58,6 @@ class MauticFormHook
     ];
 
     /**
-     * @var array
-     */
-    protected $ALLOWED_MULTIPLE_ANSWER_FORM_FIELDS = [
-        'MultiSelect' => true,
-    ];
-
-    /**
      * MauticFormHook constructor.
      *
      * @param FormPersistenceManagerInterface|null $formPersistenceManager
@@ -235,14 +228,14 @@ class MauticFormHook
                             $formField['properties'][$listIdentifier] = [];
                             $formField['properties'][$listIdentifier]['list'] = [];
 
-                            if (isset($this->ALLOWED_MULTIPLE_ANSWER_FORM_FIELDS[$formElement['type']])) {
+                            if (isset($formField['properties']['mauticMultiple']) && (int)$formField['properties']['mauticMultiple'] === 1) {
                                 $formField['properties']['multiple'] = 1;
                             }
 
                             foreach ((array)$formElement['properties']['options'] as $value => $label) {
                                 $formField['properties'][$listIdentifier]['list'][] = [
-                                    'label' => $label,
                                     'value' => $value,
+                                    'label' => $label,
                                 ];
                             }
 

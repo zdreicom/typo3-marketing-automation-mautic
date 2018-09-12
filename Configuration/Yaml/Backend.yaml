@@ -127,6 +127,7 @@ TYPO3:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
                 200: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FieldTypeSelectMixin'
                 300: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.ListIdentifierListMixin'
+                400: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.MultipleMixin'
             RadioButton:
               __inheritances:
                 100: 'TYPO3.CMS.Form.mixins.formElementMixins.mautic.FormElementMixin'
@@ -205,6 +206,12 @@ TYPO3:
                     templateName: 'Inspector-MauticPropertySelectEditor'
                     label: 'Mautic Property Type'
                     propertyPath: 'properties.mauticTable'
+
+            MultipleMixin:
+              formEditor:
+                predefinedDefaults:
+                  properties:
+                    mauticMultiple: '1'
 
             FieldTypeCheckboxMixin:
               formEditor:
