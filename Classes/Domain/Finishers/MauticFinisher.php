@@ -30,7 +30,12 @@ class MauticFinisher extends AbstractFinisher
     protected function executeInternal()
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition()->getRenderingOptions();
-        $mauticId = $this->parseOption('mauticId') ?? $formDefinition['mauticId'];
+        if (empty($this->parseOption('mauticId'))) {
+            $mauticId = $formDefinition['mauticId'];
+        } else {
+            $mauticId = $this->parseOption('mauticId');
+        }
+
         $formValues = $this->transformFormStructure($this->finisherContext->getFormValues());
 
         $this->formRepository->submitForm((int)$mauticId, $formValues);
