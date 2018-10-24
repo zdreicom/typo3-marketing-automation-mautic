@@ -16,7 +16,8 @@
     "require": {
         "typo3/cms-core": "^8.7",
         "bitmotion/marketing-automation": "dev-master",
-        "escopecz/mautic-form-submit": "^1.1"
+        "escopecz/mautic-form-submit": "^1.1",
+        "mautic/api-library": "^2.14.2"
     },
     "autoload": {
         "psr-4": {
