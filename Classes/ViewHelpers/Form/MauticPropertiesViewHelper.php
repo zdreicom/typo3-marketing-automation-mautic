@@ -42,12 +42,18 @@ class MauticPropertiesViewHelper extends SelectViewHelper
         $contactsLang = $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:mautic.contact');
         $companiesLang = $languageService->sL('LLL:EXT:marketing_automation_mautic/Resources/Private/Language/locallang_tca.xlf:mautic.company');
 
+        $contactOptions = [];
         foreach ($contactFields as $field) {
-            $options[$field['alias']] = $contactsLang.': '.$field['label'];
+            $contactOptions[$field['alias']] = $contactsLang.': '.$field['label'];
         }
+        sort($contactOptions);
+        $companyOptions = [];
         foreach ($companyFields as $field) {
-            $options[$field['alias']] = $companiesLang.': '.$field['label'];
+            $companyOptions[$field['alias']] = $companiesLang.': '.$field['label'];
         }
+        sort($companyOptions);
+
+        $options = array_merge($options, $contactOptions, $companyOptions);
 
         return $options;
     }
