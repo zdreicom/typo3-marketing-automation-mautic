@@ -58,7 +58,7 @@ class FormRepository
         $result = $form->submit($data);
         $code = $result['response']['info']['http_code'];
 
-        if ($code < 200 || $code > 400) {
+        if ($code < 200 || $code >= 400) {
             $this->logger->critical(
                 sprintf(
                     'An error occured submitting the form with the Mautic id %d to Mautic. Status code %d returned by Mautic.',
