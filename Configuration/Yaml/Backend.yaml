@@ -15,8 +15,9 @@ TYPO3:
             identifier: 'mautic'
             label: 'Mautic Form'
             newFormTemplates:
-              # Remove simple contact form default
               200:
+                templatePath: 'EXT:marketing_automation_mautic/Resources/Private/Backend/Templates/FormEditor/Yaml/NewForms/SimpleContactFormMautic.yaml'
+                label: formManager.selectablePrototypesConfiguration.standard.newFormTemplates.simpleContactForm.label
 
       prototypes:
         mautic:
