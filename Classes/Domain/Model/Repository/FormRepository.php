@@ -7,6 +7,9 @@ use Escopecz\MauticFormSubmit\Mautic;
 use Mautic\Api\Forms;
 use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormRepository
 {
@@ -20,11 +23,17 @@ class FormRepository
      */
     protected $formsApi;
 
-    public function __construct(AuthInterface $authorization = null)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(AuthInterface $authorization = null, LoggerInterface $logger = null)
     {
         $this->authorization = $authorization ?: AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
         $api = new MauticApi();
         $this->formsApi = $api->newApi('forms', $this->authorization, $this->authorization->getBaseUrl());
+        $this->logger = $logger ?: GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     public function createForm(array $parameters): array
@@ -46,6 +55,17 @@ class FormRepository
     {
         $mautic = new Mautic($this->authorization->getBaseUrl());
         $form = $mautic->getForm($id);
-        $form->submit($data);
+        $result = $form->submit($data);
+        $code = $result['response']['info']['http_code'];
+
+        if ($code < 200 || $code > 400) {
+            $this->logger->critical(
+                sprintf(
+                    'An error occured submitting the form with the Mautic id %d to Mautic. Status code %d returned by Mautic.',
+                    $id,
+                    $code
+                )
+            );
+        }
     }
 }
