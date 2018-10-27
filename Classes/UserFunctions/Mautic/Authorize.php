@@ -52,7 +52,7 @@ class Authorize
             session_start();
         }
 
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'])) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic']) && is_string($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'])) {
             $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['marketing_automation_mautic'], ['allowed_classes' => false]);
             $this->authorization = $authorization ?: AuthorizationFactory::createAuthorizationFromExtensionConfiguration($this->extensionConfiguration);
             $this->segmentRepository = $segmentRepository ?: GeneralUtility::makeInstance(SegmentRepository::class, $this->authorization);
