@@ -4,7 +4,6 @@ namespace Bitmotion\MarketingAutomationMautic\Domain\Model\Repository;
 
 use Bitmotion\MarketingAutomationMautic\Mautic\AuthorizationFactory;
 use Bitmotion\MarketingAutomationMautic\Service\MauticSendFormService;
-use Escopecz\MauticFormSubmit\Mautic;
 use Mautic\Api\Forms;
 use Mautic\Auth\AuthInterface;
 use Mautic\MauticApi;
@@ -55,16 +54,13 @@ class FormRepository
 
     public function submitForm(int $id, array $data)
     {
-        /** @var ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        /** @var MauticSendFormService $mauticSendFormService */
         $mauticSendFormService = $objectManager->get(MauticSendFormService::class);
 
         $data['formId'] = $id;
         $url = rtrim(trim($this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
         $code = $mauticSendFormService->submitForm($url, $data);
-
 
         if ($code < 200 || $code >= 400) {
             $this->logger->critical(
@@ -75,6 +71,5 @@ class FormRepository
                 )
             );
         }
-
     }
 }
