@@ -7,6 +7,7 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticSendFormService implements SingletonInterface
 {
@@ -19,7 +20,12 @@ class MauticSendFormService implements SingletonInterface
         $headers = $this->makeHeaders();
         $cookies = $this->makeCookies();
         $this->makeMultipart($multipart, 'mauticform', $data);
-
+        if(\array_key_exists('mautic_device_id', $_COOKIE)) {
+            $multipart[] = [
+                'name' => 'mautic_device_id',
+                'contents' => $_COOKIE['mautic_device_id'],
+            ];
+        }
         $result = null;
 
         try {
@@ -45,7 +51,7 @@ class MauticSendFormService implements SingletonInterface
 
     private function makeCookies(): CookieJar
     {
-        $cookies = new CookieJar();
+        $cookies = new CookieJar(true);
         $this->addCookies($cookies, 'mtc_id');
         $this->addCookies($cookies, 'mtc_sid');
         $this->addCookies($cookies, 'mautic_device_id');
@@ -56,10 +62,11 @@ class MauticSendFormService implements SingletonInterface
 
     private function addCookies(CookieJar $cookies, string $cookieName)
     {
-        if (array_key_exists($cookieName, $_COOKIE)) {
+        if (\array_key_exists($cookieName, $_COOKIE)) {
             $cookies->setCookie(new SetCookie([
                 'Name' => $cookieName,
-                'value' => $_COOKIE[$cookieName],
+                'Value' => $_COOKIE[$cookieName],
+                'Domain' => GeneralUtility::getHostname(),
             ]));
         }
     }
